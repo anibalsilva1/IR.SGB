@@ -1,4 +1,5 @@
-#' Determines predictions of a given dataset using the Gradient Tree Boost for Regression
+#' Determines predictions of a given dataset using the Gradient Tree Boost for Regression using
+#' MSE as an optimisation loss function.
 #'
 #' @param formula A formula object.
 #' @param train The training dataset. An data.frame or tibble object.
@@ -15,7 +16,7 @@
 GradientTreeBoost <- function(formula,
                               train,
                               test,
-                              maxIter = 200,
+                              maxIter = 100,
                               eta = 0.01,
                               verbose = 0){
 

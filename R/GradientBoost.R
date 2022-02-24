@@ -1,3 +1,19 @@
+#' Determines predictions of a given dataset using the Gradient Boost for Regression using MSE as
+#' an optimisation loss function.
+#'
+#' @param formula A formula object.
+#' @param train The training dataset. An data.frame or tibble object.
+#' @param test The test dataset. An data.frame or tibble object.
+#' @param maxIter The maximum number of iterations.
+#' @param eta Learning rate.
+#' @param verbose Prints out the error across iterations (if 1).
+#' @param lambda Ridge regression parameter.
+#' @param maxdepth Max depth of a tree.
+#'
+#' @return A numeric vector with predictions.
+#' @export
+#'
+#' @examples
 GradientBoost <- function(formula,
                           train,
                           test,
@@ -36,29 +52,10 @@ GradientBoost <- function(formula,
 
     df$pseudo_res <- y - strongpreds
 
-    if(weakLearner == "lm"){
 
-      resWeak <- do.call(weakLearner, args = list(
-        formula = pseudo_res ~ .,
-        data = df))
-    }
-    else if(weakLearner == "rpart"){
-
-      resWeak <- do.call(weakLearner, args = list(
-        formula = pseudo_res ~ .,
-        data = df,
-        maxdepth = maxdepth))
-    }
-    else if(weakLearner == "nnet"){
-
-      resWeak <- do.call(weakLearner, args = list(
-        formula = pseudo_res ~ .,
-        data = df,
-        size = round(sqrt(ncol(data)-1)),
-        maxit = maxIter.w,
-        linout =T,
-        trace = F))
-    }
+    resWeak <- rpart(formula = pseudo_res ~ .,
+                     data = df,
+                     maxdepth = maxdepth)
 
     weakpreds <- predict(resWeak, X)
     stumps[[t]] <- resWeak

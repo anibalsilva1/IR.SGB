@@ -2,9 +2,10 @@
 % Please edit documentation in R/GradientTreeBoost.R
 \name{GradientTreeBoost}
 \alias{GradientTreeBoost}
-\title{Determines predictions of a given dataset using the Gradient Tree Boost for Regression}
+\title{Determines predictions of a given dataset using the Gradient Tree Boost for Regression using
+MSE as an optimisation loss function.}
 \usage{
-GradientTreeBoost(formula, train, test, maxIter = 200, eta = 0.01, verbose = 0)
+GradientTreeBoost(formula, train, test, maxIter = 100, eta = 0.01, verbose = 0)
 }
 \arguments{
 \item{formula}{A formula object.}
@@ -23,7 +24,8 @@ GradientTreeBoost(formula, train, test, maxIter = 200, eta = 0.01, verbose = 0)
 A vector with predictions.
 }
 \description{
-Determines predictions of a given dataset using the Gradient Tree Boost for Regression
+Determines predictions of a given dataset using the Gradient Tree Boost for Regression using
+MSE as an optimisation loss function.
 }
 \examples{
 

@@ -1,7 +1,31 @@
+#' Determines predictions of a given dataset using the Gradient Boost for Regression using
+#' SERA as an optimisation loss function.
+#'
+#'
+#' @param formula A formula object.
+#' @param train The training dataset. An data.frame or tibble object.
+#' @param test The test dataset. An data.frame or tibble object.
+#' @param maxIter The maximum number of iterations.
+#' @param eta Learning rate.
+#' @param lambda Ridge regression parameter.
+#' @param maxdepth Max depth of a tree.
+#' @param verbose Prints out the error across iterations (if 1).
+#'
+#' @return A numeric vector with predictions.
+#' @export
+#'
+#' @examples
+#'
+
+
+library(IRon)
+library(rpart)
+library(treeClust)
+
 SERAGradBoost <- function(formula,
                           train,
                           test,
-                          maxIter = 200,
+                          maxIter = 100,
                           eta = 0.01,
                           lambda = 10,
                           maxdepth = 5,
