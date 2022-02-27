@@ -7,5 +7,5 @@ You can install the development version of IR.SGB like so:
 
 ``` r
 install.packages("devtools")
-devtools:install_github("anibalsilva1/IR.SGB")
+devtools::install_github("anibalsilva1/IR.SGB")
 ```
