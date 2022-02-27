@@ -103,13 +103,14 @@ SERAGradBoost <- function(formula,
   m = nrow(test)
   n = length(stumps)
   preds <- matrix(0, nrow = m, ncol = n)
+  finalpreds <- c()
 
   for (i in 1:n) {
 
     preds[, i] <- predict(stumps[[i]], test)
 
   }
-  preds <- F_0 + sapply(1:m, FUN = function(i) eta * sum(gammas * preds[i ,]))
+  finalpreds <- F_0 + sapply(1:m, FUN = function(i) eta * sum(gammas * preds[i ,]))
 
-  return(preds)
+  return(finalpreds)
 }

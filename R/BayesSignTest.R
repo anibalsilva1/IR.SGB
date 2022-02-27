@@ -1,4 +1,4 @@
-#' Calculates the posterior probabilities of a model A being practically better then a model B.
+#' Calculates the posterior probabilities of a model A (left) being practically better then a model B (right).
 #'
 #' @param diffVector A numeric vector with error differences.
 #' @param rope_min A numeric value with the minimum of ROPE.

@@ -2,7 +2,7 @@
 % Please edit documentation in R/BayesSignTest.R
 \name{BayesianSignTest}
 \alias{BayesianSignTest}
-\title{Calculates the posterior probabilities of a model A being practically better then a model B.}
+\title{Calculates the posterior probabilities of a model A (left) being practically better then a model B (right).}
 \usage{
 BayesianSignTest(diffVector, rope_min, rope_max)
 }
@@ -17,5 +17,5 @@ BayesianSignTest(diffVector, rope_min, rope_max)
 A list with the posterior probabilities.
 }
 \description{
-Calculates the posterior probabilities of a model A being practically better then a model B.
+Calculates the posterior probabilities of a model A (left) being practically better then a model B (right).
 }
