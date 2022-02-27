@@ -58,3 +58,24 @@ lgbmsera <- function(preds, dtrain){
 
   return(list(grad = grad, hess = hess))
 }
+
+#' Function to be used with performanceEstimation
+#'
+#' @param trues A numeric vector with true values.
+#' @param preds A numeric vector with predictions.
+#' @param phi.ctrl Control points.
+#' @param ... Additional arguments.
+#'
+#' @return A numeric vector with mse and sera values.
+#' @export
+#'
+#' @examples
+#'
+metrics <- function(trues, preds, phi.ctrl, ...){
+
+  phi.trues <- as.vector(phi(trues, phi.parms = phi.ctrl))
+
+  c(mse = as.vector(mean((trues - preds)^2)),
+    sera = as.vector(sera(trues,preds,phi.trues)))
+
+}
