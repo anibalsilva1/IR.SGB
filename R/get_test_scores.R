@@ -1,4 +1,4 @@
-#' Evaluates a metric for several models across all datasets.
+#' Evaluates a metric for several models and datasets.
 #'
 #' @param predictions An object returned from \code{\link{get_predictions}}
 #' @param metric An character with the metric name. Possible values: \code{"sera"}, \code{"mse"}

@@ -1,7 +1,6 @@
 #' Determines predictions of a given dataset using the Gradient Boost for Regression using
 #' SERA as an optimisation loss function.
 #'
-#'
 #' @param formula A formula object.
 #' @param train The training dataset. An data.frame or tibble object.
 #' @param test The test dataset. An data.frame or tibble object.

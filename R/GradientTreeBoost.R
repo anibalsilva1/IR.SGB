@@ -2,8 +2,8 @@
 #' MSE as an optimisation loss function.
 #'
 #' @param formula A formula object.
-#' @param train The training dataset. An data.frame or tibble object.
-#' @param test The test dataset. An data.frame or tibble object.
+#' @param train A data.frame or tibble object. The training dataset.
+#' @param test A data.frame or tibble object. The test dataset.
 #' @param maxIter The maximum number of iterations.
 #' @param eta Learning rate.
 #' @param verbose Prints out the error across iterations (if 1)

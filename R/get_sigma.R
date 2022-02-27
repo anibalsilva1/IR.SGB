@@ -1,3 +1,12 @@
+#' Calculas que number of occurrences where a given prediction appears in the relevance function space.
+#'
+#' @param phi A numeric vector with the relevance values of the target variable.
+#' @param steps A numeric vector with steps.
+#'
+#' @return A numeric vector with the number of occurrences of a given observation.
+#' @export
+#'
+#' @examples
 get_sigma <- function(phi, steps){
 
   v <- vector(mode = "numeric", length=length(phi))

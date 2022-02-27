@@ -9,7 +9,6 @@
 #'
 #' @examples
 merge_results <- function(results, nDs, nWFs){
-  ## Merges nDs x nWFs comparisonResults objects from performanceEstimation
 
   res <- NULL
   for(d in nDs){

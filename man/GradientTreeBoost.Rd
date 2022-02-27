@@ -10,9 +10,9 @@ GradientTreeBoost(formula, train, test, maxIter = 100, eta = 0.01, verbose = 0)
 \arguments{
 \item{formula}{A formula object.}
 
-\item{train}{The training dataset. An data.frame or tibble object.}
+\item{train}{A data.frame or tibble object. The training dataset.}
 
-\item{test}{The test dataset. An data.frame or tibble object.}
+\item{test}{A data.frame or tibble object. The test dataset.}
 
 \item{maxIter}{The maximum number of iterations.}
 

@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_test_scores.R
 \name{get_test_scores}
 \alias{get_test_scores}
-\title{Evaluates a metric for several models across all datasets.}
+\title{Evaluates a metric for several models and datasets.}
 \usage{
 get_test_scores(predictions, metric = "sera", tr = 0.9, norm = F)
 }
@@ -20,5 +20,5 @@ get_test_scores(predictions, metric = "sera", tr = 0.9, norm = F)
 A dataframe with the scores for each model and for each data.frame.
 }
 \description{
-Evaluates a metric for several models across all datasets.
+Evaluates a metric for several models and datasets.
 }
