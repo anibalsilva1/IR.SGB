@@ -8,15 +8,25 @@
 #' @param eta Learning rate.
 #' @param verbose Prints out the error across iterations (if 1)
 #'
+#'
 #' @return A numeric vector with predictions.
 #' @export
 #'
 #' @examples
+#' \dontrun{
+#' library(IR.SGB)
+#' library(dplyr)
 #'
-
-library(IRon)
-library(rpart)
-library(treeClust)
+#' n <- nrow(NO2Emissions)
+#' s <- sample(1:n, size = n*0.8)
+#'
+#' formula <- LNO2 ~ .
+#' train <- NO2Emissions %>% slice(s)
+#' test <- NO2Emissions %>% slice(-s)
+#'
+#' preds <- SERAGradientTreeBoost(formula, train, test)
+#' preds
+#' }
 
 SERAGradientTreeBoost <- function(formula,
                                   train,
@@ -34,9 +44,9 @@ SERAGradientTreeBoost <- function(formula,
   X <- dplyr::select(train, -target)
   df <- X
 
-  phi.ctrl <- phi.control(y)
+  phi.ctrl <- IRon::phi.control(y)
 
-  phi.trues <- phi(y, phi.ctrl)
+  phi.trues <- IRon::phi(y, phi.ctrl)
 
   s <- 0.001
   step <- seq(0,1,s)
@@ -64,7 +74,7 @@ SERAGradientTreeBoost <- function(formula,
 
     df$pseudo_res <- 2*sigmas*(y - strongpreds)
 
-    resWeak <- rpart(formula = pseudo_res ~ ., data = df)
+    resWeak <- rpart::rpart(formula = pseudo_res ~ ., data = df)
     stumps[[t]] <- resWeak
     leaves[[t]] <- resWeak$where
 
@@ -77,7 +87,7 @@ SERAGradientTreeBoost <- function(formula,
     areas_num <- sapply(1:length(unique(leaves[[t]])), FUN = function(leaf) sum(sapply(2:length(step), FUN = function(x) s * (ers_num[x-1, leaf] + ers_num[x, leaf])/ 2 )))
     areas_den <- sapply(1:length(unique(leaves[[t]])), FUN = function(leaf) sum(sapply(2:length(step), FUN = function(x) s * (ers_den[x-1, leaf] + ers_den[x, leaf])/ 2 )))
 
-    gammas[[t]] <- setNames(areas_num/areas_den, unique(leaves[[t]]))
+    gammas[[t]] <- stats::setNames(areas_num/areas_den, unique(leaves[[t]]))
 
 
     df$pseudo_res <- NULL
@@ -85,7 +95,7 @@ SERAGradientTreeBoost <- function(formula,
 
 
     if(verbose == 1) {
-      erra[t] <- sera(trues = y, preds = strongpreds, phi.trues = phi.trues)
+      erra[t] <- IRon::sera(trues = y, preds = strongpreds, phi.trues = phi.trues)
       print(paste0("Iteration: ", t, " SERA: ", erra[t]))
     }
 

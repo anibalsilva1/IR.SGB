@@ -10,7 +10,7 @@ get_all_best_models_bayes(res, df, models, metric = "sera")
 \arguments{
 \item{res}{A ComparisonResults object.}
 
-\item{df}{A data.frame returned from \code{\link{get_aavg_scores_by_metrics}}.}
+\item{df}{A data.frame returned from \code{\link{get_avg_scores_by_metrics}}.}
 
 \item{models}{A character vector with the models that we want to evaluate.}
 

@@ -4,10 +4,10 @@
 \alias{wf.SERAGradientTreeBoost}
 \title{Workflow for Gradient Tree Boost optimised with SERA.}
 \usage{
-wf.SERAGradientTreeBoost(form, train, test, ...)
+wf.SERAGradientTreeBoost(formula, train, test, ...)
 }
 \arguments{
-\item{form}{A formula object.}
+\item{formula}{A formula object.}
 
 \item{train}{A train dataset. Data.frame or tibble object.}
 

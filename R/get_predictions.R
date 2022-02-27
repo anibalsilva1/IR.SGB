@@ -6,7 +6,8 @@
 #' @return A list with the predictions for each dataset. This predictions
 #' will be inside a dataframe, where each column will be the predictions of each model.
 #' @export
-#'
+#' @import doParallel
+#' @importFrom foreach foreach %dopar%
 #' @examples
 get_predictions <- function(datasets, bestmodels){
 

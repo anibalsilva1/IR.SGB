@@ -12,7 +12,20 @@
 #' @export
 #'
 #' @examples
+#' \dontrun{
+#' library(IR.SGB)
+#' library(dplyr)
+#' n <- nrow(NO2Emissions)
+#' s <- sample(1:n, size = n*0.8)
 #'
+#' formula <- LNO2 ~ .
+#' train <- NO2Emissions %>% slice(s)
+#' test <- NO2Emissions %>% slice(-s)
+#'
+#' preds <- GradientTreeBoost(formula, train, test)
+#' preds
+#' }
+
 GradientTreeBoost <- function(formula,
                               train,
                               test,
@@ -26,7 +39,7 @@ GradientTreeBoost <- function(formula,
 
   target <- formula[[2]]
 
-  y <- pull(train, target)
+  y <- dplyr::pull(train, target)
   X <- dplyr::select(train, -target)
 
 
@@ -49,11 +62,11 @@ GradientTreeBoost <- function(formula,
   while (t <= maxIter) {
 
     X$pseudo_res <- y - strongpreds
-    resWeak <- rpart(formula = pseudo_res ~ ., data = X)
+    resWeak <- rpart::rpart(formula = pseudo_res ~ ., data = X)
     leaves[[t]] <- resWeak$where
 
     stumps[[t]] <- resWeak
-    gammas[[t]] <- setNames(sapply(unique(leaves[[t]]), FUN = function(leaf) mean(X$pseudo_res[leaves[[t]] == leaf])),
+    gammas[[t]] <- stats::setNames(sapply(unique(leaves[[t]]), FUN = function(leaf) mean(X$pseudo_res[leaves[[t]] == leaf])),
                             unique(leaves[[t]]))
 
     nG <- as.numeric(names(gammas[[t]]))
@@ -67,7 +80,7 @@ GradientTreeBoost <- function(formula,
 
 
     if(verbose == 1){
-      erra[t] <- mse(y, strongpreds)
+      erra[t] <- IRon::mse(y, strongpreds)
       print(paste0("Iteration: ", t, " mse: ", erra[t]))
     }
 

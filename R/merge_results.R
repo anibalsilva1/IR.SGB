@@ -6,6 +6,8 @@
 #'
 #' @return A merged ComparisonResults object.
 #' @export
+#' @import performanceEstimation
+#' @import stats
 #'
 #' @examples
 merge_results <- function(results, nDs, nWFs){

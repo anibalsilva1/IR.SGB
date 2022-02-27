@@ -8,7 +8,7 @@ practically better than another workflow.}
 get_best_oracles_for_each_model(bayesresults)
 }
 \arguments{
-\item{bayesresults}{A data.frame returned from \code{\link{get_all_bayes_models_results.R}}}
+\item{bayesresults}{A data.frame returned from \code{\link{get_all_bayes_models_results}}}
 }
 \value{
 A character vector with the best workflow for all the considered models.

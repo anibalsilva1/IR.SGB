@@ -2,7 +2,7 @@
 #' according to Bayes Sign Test
 #'
 #' @param res A ComparisonResults object.
-#' @param df A data.frame returned from \code{\link{get_aavg_scores_by_metrics}}.
+#' @param df A data.frame returned from \code{\link{get_avg_scores_by_metrics}}.
 #' @param models A character vector with the models that we want to evaluate.
 #' @param metric A character with the metric name.
 #'
@@ -21,8 +21,8 @@ get_all_best_models_bayes <- function(res, df, models, metric = "sera"){
 
     print(paste0("Getting results for model ", model))
 
-    topkperf <- getTopKperformers(df, m.name = model, metric = metric)
-    bayesdf <- getBestModelsBayes(res, workflows = topkperf, metric = metric)
+    topkperf <- get_top_k_performers(df, m.name = model, metric = metric)
+    bayesdf <- get_best_models_bayes(res, workflows = topkperf, metric = metric)
 
     results[[model]] <- bayesdf
   }

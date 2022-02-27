@@ -11,10 +11,11 @@
 #' @examples
 wf.ranger <- function(formula, train, test, ...){
 
-  m <- ranger(formula = formula, data =  train, ...)
+  m <- ranger::ranger(formula = formula, data =  train, ...)
+
   preds <- predict(m, test)$predictions
 
-  r <- list(trues = responseValues(formula, test),
+  r <- list(trues = performanceEstimation::responseValues(formula, test),
             preds = preds)
   return(r)
 }
@@ -38,23 +39,23 @@ wf.xgboost <- function(formula, train, test,...){
   xgb_train_m <- data.matrix(dplyr::select(train, -t))
   xgb_test_m <- data.matrix(dplyr::select(test, -t))
 
-  label_train <- pull(train, all_of(t))
-  label_test <- pull(test, all_of(t))
+  label_train <- dplyr::pull(train, all_of(t))
+  label_test <- dplyr::pull(test, all_of(t))
 
-  xgb_train <- xgb.DMatrix(data = xgb_train_m, label = label_train)
-  xgb_test <- xgb.DMatrix(data = xgb_test_m, label = label_test)
+  xgb_train <- xgboost::xgb.DMatrix(data = xgb_train_m, label = label_train)
+  xgb_test <-  xgboost::xgb.DMatrix(data = xgb_test_m, label = label_test)
 
 
 
-  m <- xgboost(data = xgb_train,
-               verbose = 0,
-               booster = "dart",
-               ...
+  m <- xgboost::xgboost(data = xgb_train,
+                        verbose = 0,
+                        booster = "dart",
+                        ...
   )
 
   preds <- predict(m, xgb_test)
 
-  r <- list(trues = as.vector(responseValues(formula, test)),
+  r <- list(trues = as.vector(performanceEstimation::responseValues(formula, test)),
             preds = preds
   )
   return(r)
@@ -80,8 +81,8 @@ wf.xSERAgboost <- function(formula, train, test,...){
   xgb_train_m <- data.matrix(dplyr::select(train, -all_of(t)))
   xgb_test_m <- data.matrix(dplyr::select(test, -all_of(t)))
 
-  label_train <- pull(train, all_of(t))
-  label_test <- pull(test, all_of(t))
+  label_train <- dplyr::pull(train, all_of(t))
+  label_test <-  dplyr::pull(test, all_of(t))
 
   xgb_train <- xgboost::xgb.DMatrix(data = xgb_train_m, label = label_train)
   xgb_test <- xgboost::xgb.DMatrix(data = xgb_test_m, label = label_test)
@@ -97,7 +98,7 @@ wf.xSERAgboost <- function(formula, train, test,...){
 
   preds <- predict(m, xgb_test)
 
-  r <- list(trues = as.vector(responseValues(formula, test)),
+  r <- list(trues = as.vector(performanceEstimation::responseValues(formula, test)),
             preds = preds
   )
   return(r)
@@ -119,7 +120,7 @@ wf.xSERAgboost <- function(formula, train, test,...){
 wf.SERAGradientBoost <- function(formula, train, test,...){
 
   preds <- SERAGradientBoost(formula = formula, train, test, ...)
-  r <- list(trues = responseValues(formula, test),
+  r <- list(trues = performanceEstimation::responseValues(formula, test),
             preds = preds)
   return(r)
 }
@@ -141,7 +142,7 @@ wf.SERAGradientTreeBoost <- function(formula, train, test,...){
 
   preds <- SERAGradientTreeBoost(formula = formula, train, test, ...)
 
-  r <- list(trues = responseValues(formula, test),
+  r <- list(trues = performanceEstimation::responseValues(formula, test),
             preds = preds)
   return(r)
 }
@@ -162,7 +163,7 @@ wf.GradientBoost <- function(formula, train, test,...){
 
   preds <- GradientBoost(formula = formula, train, test, ...)
 
-  r <- list(trues = responseValues(formula, test),
+  r <- list(trues = performanceEstimation::responseValues(formula, test),
             preds = preds)
   return(r)
 }
@@ -184,7 +185,7 @@ wf.GradientTreeBoost <- function(formula, train, test,...){
 
   preds <- GradientTreeBoost(formula = formula, train, test, ...)
 
-  r <- list(trues = responseValues(formula, test),
+  r <- list(trues = performanceEstimation::responseValues(formula, test),
             preds = preds)
   return(r)
 }
@@ -213,9 +214,9 @@ wf.LGBM <- function(formula, train, test, ...){
   lgbm_train_m <- data.matrix(dplyr::select(train, -all_of(t)))
   lgbm_test_m <- data.matrix(dplyr::select(test, -all_of(t)))
 
-  label_train <- pull(train, all_of(t))
+  label_train <- dplyr::pull(train, all_of(t))
 
-  lgbm_train <- lgb.Dataset(data = lgbm_train_m, label = label_train)
+  lgbm_train <- lightgbm::lgb.Dataset(data = lgbm_train_m, label = label_train)
 
   pars <- list(...)
 
@@ -231,7 +232,7 @@ wf.LGBM <- function(formula, train, test, ...){
 
   preds <- predict(m, lgbm_test_m)
 
-  r <- list(trues = as.vector(responseValues(formula, test)),
+  r <- list(trues = as.vector(performanceEstimation::responseValues(formula, test)),
             preds = preds)
   return(r)
 
@@ -261,9 +262,9 @@ wf.LGBMSERA <- function(formula, train, test, ...){
   lgbm_train_m <- data.matrix(dplyr::select(train, -all_of(t)))
   lgbm_test_m <- data.matrix(dplyr::select(test, -all_of(t)))
 
-  label_train <- pull(train, all_of(t))
+  label_train <- dplyr::pull(train, all_of(t))
 
-  lgbm_train <- lgb.Dataset(data = lgbm_train_m, label = label_train)
+  lgbm_train <- lightgbm::lgb.Dataset(data = lgbm_train_m, label = label_train)
 
   pars <- list(...)
 
@@ -279,7 +280,7 @@ wf.LGBMSERA <- function(formula, train, test, ...){
 
   preds <- predict(m, lgbm_test_m)
 
-  r <- list(trues = as.vector(responseValues(formula, test)),
+  r <- list(trues = as.vector(performanceEstimation::responseValues(formula, test)),
             preds = preds)
   return(r)
 

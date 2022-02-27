@@ -84,7 +84,7 @@ get_best_models_bayes <- function(res, workflows, metric = "mse", folds = 10){
 
       test <- BayesianSignTest(diffVector = oracles[[i]][, j], rope_max = rope, rope_min = -rope)
 
-      resBayes <- resBayes %>% add_row(
+      resBayes <- resBayes %>% dplyr::add_row(
         oracle = or,
         model = colnames(oracles[[i]])[j],
         oracleProb = test$probLeft,

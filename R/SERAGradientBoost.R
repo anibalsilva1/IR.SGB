@@ -14,23 +14,30 @@
 #' @export
 #'
 #' @examples
+#' \dontrun{
+#' library(IR.SGB)
+#' library(dplyr)
 #'
+#' n <- nrow(NO2Emissions)
+#' s <- sample(1:n, size = n*0.8)
+#'
+#' formula <- LNO2 ~ .
+#' train <- NO2Emissions %>% slice(s)
+#' test <- NO2Emissions %>% slice(-s)
+#'
+#' preds <- SERAGradientTreeBoost(formula, train, test)
+#' preds
+#' }
 
+SERAGradientBoost <- function(formula,
+                              train,
+                              test,
+                              maxIter = 100,
+                              eta = 0.01,
+                              lambda = 10,
+                              maxdepth = 5,
+                              verbose = 0){
 
-library(IRon)
-library(rpart)
-library(treeClust)
-
-SERAGradBoost <- function(formula,
-                          train,
-                          test,
-                          maxIter = 100,
-                          eta = 0.01,
-                          lambda = 10,
-                          maxdepth = 5,
-                          verbose = 0){
-
-  ### FIX ROWNAMES BECAUSE OF UNORDERED LEAF NAMES
   rownames(train) <- 1:nrow(train)
   rownames(test) <- 1:nrow(test)
 
@@ -43,7 +50,7 @@ SERAGradBoost <- function(formula,
   gammas <- c()
 
 
-  phi.trues <- phi(y)
+  phi.trues <- IRon::phi(y)
   ser_m <- sera_min(y, phi.trues)
 
   s <- 0.001
@@ -70,7 +77,7 @@ SERAGradBoost <- function(formula,
 
     X$pseudo_res <- 2*sigmas*(y - strongpreds)
 
-    resWeak <- rpart(formula = pseudo_res ~ .,
+    resWeak <- rpart::rpart(formula = pseudo_res ~ .,
                      data = X,
                      maxdepth = maxdepth)
 
@@ -91,7 +98,7 @@ SERAGradBoost <- function(formula,
 
 
     if(verbose == 1){
-      erra[t] <- sera(trues = y, preds = strongpreds, phi.trues = phi.trues)
+      erra[t] <- IRon::sera(trues = y, preds = strongpreds, phi.trues = phi.trues)
       print(paste0("Iteration: ", t, " SERA: ", erra[t]))
     }
 

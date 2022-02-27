@@ -7,13 +7,13 @@
 wf.xgboost(formula, train, test, ...)
 }
 \arguments{
+\item{formula}{A formula object.}
+
 \item{train}{A train dataset. Data.frame or tibble object.}
 
 \item{test}{A test dataset. Data.frame or tibble object.}
 
-\item{...}{Additional paramters which can be passed into internal model.}
-
-\item{form}{A formula object.}
+\item{...}{Additional parameters which can be passed into internal model.}
 }
 \value{
 A list containing true values and predictions.

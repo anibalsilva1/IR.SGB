@@ -10,20 +10,20 @@
 #' If \code{False}, it only returns the average differences between the \code{oracle} and
 #' each workflow. \code{True} by default.
 #'
+#' @importFrom magrittr %>%
+#'
 #' @return A list with the posterior probabilities between the \code{oracle} and
 #' each model in \code{bestmodels} and the average differences between the \code{oracle}
 #' and each workflow
 #' @export
 #'
 #' @examples
-getDiffs <-
-  function(res,
-           bestmodels,
-           oracle,
-           metric = "nrmse",
-           folds = 10,
-           bayestest = T,
-           test = "signed_rank") {
+get_diffs_bayes <- function(res,
+                            bestmodels,
+                            oracle,
+                            metric = "nrmse",
+                            folds = 10,
+                            bayestest = T) {
 
     datasets <- names(res)
     nbm = length(bestmodels)
@@ -46,7 +46,7 @@ getDiffs <-
           if(metric == "nsera"){
 
             p.ctrl <- res[[ds]][[bm]]@estTask@evaluator.pars$phi.ctrl
-            err <- sera(trues = trues, preds = preds, phi.trues = phi(trues, p.ctrl), norm = T)
+            err <- IRon::sera(trues = trues, preds = preds, phi.trues = IRon::phi(trues, p.ctrl), norm = T)
           }
           else if(metric == "nrmse"){
 
@@ -69,8 +69,8 @@ getDiffs <-
       orcl <- results[, oracle]
 
       results <- results %>%
-        mutate(across(everything(), ~ (.x - orcl)/orcl)) %>%
-        summarise(across(everything(), ~ mean(.x)))
+        dplyr::mutate(across(everything(), ~ (.x - orcl)/orcl)) %>%
+        dplyr::summarise(across(everything(), ~ mean(.x)))
 
       resds[[ds]] <- results
 
@@ -86,7 +86,7 @@ getDiffs <-
     resf <- resf[, colnames(resf) != oracle]
 
     if(!isTRUE(bayestest))
-      return(as_tibble(resf))
+      return(dplyr::as_tibble(resf))
 
     else{
 
@@ -105,15 +105,15 @@ getDiffs <-
 
 
         bsr <- BayesianSignTest(dv, rope_min = -rope, rope_max = rope)
-        resBayes <- resBayes %>% add_row(model = model,
-                                         oracle = oracle,
-                                         modelProb = bsr$probLeft,
-                                         oracleProb = bsr$probRight,
-                                         rope = bsr$probRope)
+        resBayes <- resBayes %>% dplyr::add_row(model = model,
+                                                oracle = oracle,
+                                                modelProb = bsr$probLeft,
+                                                oracleProb = bsr$probRight,
+                                                rope = bsr$probRope)
       }
 
       resBayes <- resBayes %>%
-        mutate(
+        dplyr::mutate(
           #oracle = str_extract(oracle, "(?<=wf\\.)(.*)(?=\\.v\\d+)"),
           #model = str_extract(model, "(?<=wf\\.)(.*)(?=\\.v\\d+)"),
           modelProb = sprintf("%0.3f", modelProb),

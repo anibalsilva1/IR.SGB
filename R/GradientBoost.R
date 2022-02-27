@@ -14,10 +14,25 @@
 #' @export
 #'
 #' @examples
+#' \dontrun{
+#' library(IR.SGB)
+#' library(dplyr)
+#'
+#' n <- nrow(NO2Emissions)
+#' s <- sample(1:n, size = n*0.8)
+#'
+#' formula <- LNO2 ~ .
+#' train <- NO2Emissions %>% slice(s)
+#' test <- NO2Emissions %>% slice(-s)
+#'
+#' preds <- GradientBoost(formula, train, test)
+#' preds}
+
+
+
 GradientBoost <- function(formula,
                           train,
                           test,
-                          weakLearner = "rpart",
                           maxIter = 200,
                           eta = 0.01,
                           verbose = 0,
@@ -29,7 +44,7 @@ GradientBoost <- function(formula,
 
   target <- formula[[2]]
 
-  y <- pull(train, target)
+  y <- dplyr::pull(train, target)
   X <- dplyr::select(train, -target)
   df <- X
 
@@ -53,9 +68,9 @@ GradientBoost <- function(formula,
     df$pseudo_res <- y - strongpreds
 
 
-    resWeak <- rpart(formula = pseudo_res ~ .,
-                     data = df,
-                     maxdepth = maxdepth)
+    resWeak <- rpart::rpart(formula = pseudo_res ~ .,
+                            data = df,
+                            maxdepth = maxdepth)
 
     weakpreds <- predict(resWeak, X)
     stumps[[t]] <- resWeak
@@ -67,7 +82,7 @@ GradientBoost <- function(formula,
 
 
     if(verbose == 1){
-      erra[t] <- mse(y, strongpreds)
+      erra[t] <- IRon::mse(y, strongpreds)
       print(paste0("Iteration: ", t, " mse: ", erra[t]))
     }
     t = t+1

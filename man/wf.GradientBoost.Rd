@@ -4,10 +4,10 @@
 \alias{wf.GradientBoost}
 \title{Workflow for Gradient Boost}
 \usage{
-wf.GradientBoost(form, train, test, ...)
+wf.GradientBoost(formula, train, test, ...)
 }
 \arguments{
-\item{form}{A formula object.}
+\item{formula}{A formula object.}
 
 \item{train}{A train dataset. Data.frame or tibble object.}
 

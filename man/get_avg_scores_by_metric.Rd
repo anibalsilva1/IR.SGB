@@ -5,10 +5,10 @@
 \title{Given a merged ComparisonResults object, returns a dataframe containing the
 average results from each workflow.}
 \usage{
-get_avg_scores_by_metric(results, metric = "sera")
+get_avg_scores_by_metric(res, metric = "sera")
 }
 \arguments{
-\item{results}{A ComparisonResults object.}
+\item{res}{A ComparisonResults object.}
 
 \item{metric}{A character specifying the metric. Possible values: sera or mse.}
 }

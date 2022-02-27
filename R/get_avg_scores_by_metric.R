@@ -1,7 +1,7 @@
 #' Given a merged ComparisonResults object, returns a dataframe containing the
 #' average results from each workflow.
 #'
-#' @param results A ComparisonResults object.
+#' @param res A ComparisonResults object.
 #' @param metric A character specifying the metric. Possible values: sera or mse.
 #'
 #' @return A tibble object with the following columns: dataset, workflow,
@@ -9,9 +9,9 @@
 #' @export
 #'
 #' @examples
-get_avg_scores_by_metric <- function(results, metric = "sera"){
+get_avg_scores_by_metric <- function(res, metric = "sera"){
 
-  resdata <- tibble(
+  resdata <- tibble::tibble(
     dataset = character(),
     workflow = character(),
     metrics = list(),
@@ -35,9 +35,9 @@ get_avg_scores_by_metric <- function(results, metric = "sera"){
     avg = sapply(1:nrow(resdata), FUN = function(i) colMeans(resdata$metrics[i][[1]])[metric]),
   ) %>%
     dplyr::select(-metrics) %>%
-    mutate(across(where(is.character), as.factor))
+    dplyr::mutate(across(where(is.character), as.factor))
 
-  resdata <- resdata %>% mutate(workflow = as.factor(workflow))
+  resdata <- resdata %>% dplyr::mutate(workflow = as.factor(workflow))
 
 
   return(resdata)

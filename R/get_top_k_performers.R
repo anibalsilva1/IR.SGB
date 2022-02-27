@@ -12,6 +12,8 @@
 #' @examples
 get_top_k_performers <- function(res, k = 3, m.name, metric = "mse"){
 
+  library(dplyr)
+
   res <- res %>% separate(workflow,
                           into = c("model", "version"),
                           sep = ".v") %>% filter(model == m.name)
@@ -21,14 +23,14 @@ get_top_k_performers <- function(res, k = 3, m.name, metric = "mse"){
       ungroup() %>%
       count(version) %>%
       slice_max(version, n = k) %>%
-      dplyr::select(-n)
+      select(-n)
 
     topSERA <- res %>% group_by(dataset) %>%
       slice_min(avg_sera, n = k) %>%
       ungroup() %>%
       count(version) %>%
       slice_max(version, n = k) %>%
-      dplyr::select(-n)
+      select(-n)
 
     top <- bind_rows(topMSE, topSERA) %>% distinct(version) %>% pull()
 
