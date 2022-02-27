@@ -1,6 +1,6 @@
 #' Workflow for Random Forests
 #'
-#' @param form A formula object.
+#' @param formula A formula object.
 #' @param train A train dataset. Data.frame or tibble object.
 #' @param test A test dataset. Data.frame or tibble object.
 #' @param ... Additional paramters which can be passed into internal model.
@@ -9,22 +9,22 @@
 #' @export
 #'
 #' @examples
-wf.ranger <- function(form, train, test, ...){
+wf.ranger <- function(formula, train, test, ...){
 
-  m <- ranger(formula = form, data =  train, ...)
+  m <- ranger(formula = formula, data =  train, ...)
   preds <- predict(m, test)$predictions
 
-  r <- list(trues = responseValues(form, test),
+  r <- list(trues = responseValues(formula, test),
             preds = preds)
   return(r)
 }
 
 #' Workflow for xgboost
 #'
-#' @param form A formula object.
+#' @param formula A formula object.
 #' @param train A train dataset. Data.frame or tibble object.
 #' @param test A test dataset. Data.frame or tibble object.
-#' @param ... Additional paramters which can be passed into internal model.
+#' @param ... Additional parameters which can be passed into internal model.
 #'
 #' @return A list containing true values and predictions.
 #' @export
@@ -63,7 +63,7 @@ wf.xgboost <- function(formula, train, test,...){
 
 #' Workflow for xgboost optimised with SERA
 #'
-#' @param form A formula object.
+#' @param formula A formula object.
 #' @param train A train dataset. Data.frame or tibble object.
 #' @param test A test dataset. Data.frame or tibble object.
 #' @param ... Additional parameters which can be passed into internal model.
@@ -106,7 +106,7 @@ wf.xSERAgboost <- function(formula, train, test,...){
 
 #' Workflow for Gradient Boost optimised with SERA.
 #'
-#' @param form A formula object.
+#' @param formula A formula object.
 #' @param train A train dataset. Data.frame or tibble object.
 #' @param test A test dataset. Data.frame or tibble object.
 #' @param ... Additional paramters which can be passed into internal model.
@@ -116,10 +116,10 @@ wf.xSERAgboost <- function(formula, train, test,...){
 #'
 #' @examples
 
-wf.SERAGradientBoost <- function(form, train, test,...){
+wf.SERAGradientBoost <- function(formula, train, test,...){
 
-  preds <- SERAGradientBoost(formula = form, train, test, ...)
-  r <- list(trues = responseValues(form, test),
+  preds <- SERAGradientBoost(formula = formula, train, test, ...)
+  r <- list(trues = responseValues(formula, test),
             preds = preds)
   return(r)
 }
@@ -127,7 +127,7 @@ wf.SERAGradientBoost <- function(form, train, test,...){
 
 #' Workflow for Gradient Tree Boost optimised with SERA.
 #'
-#' @param form A formula object.
+#' @param formula A formula object.
 #' @param train A train dataset. Data.frame or tibble object.
 #' @param test A test dataset. Data.frame or tibble object.
 #' @param ... Additional paramters which can be passed into internal model.
@@ -137,18 +137,18 @@ wf.SERAGradientBoost <- function(form, train, test,...){
 #'
 #' @examples
 
-wf.SERAGradientTreeBoost <- function(form, train, test,...){
+wf.SERAGradientTreeBoost <- function(formula, train, test,...){
 
-  preds <- SERAGradientTreeBoost(formula = form, train, test, ...)
+  preds <- SERAGradientTreeBoost(formula = formula, train, test, ...)
 
-  r <- list(trues = responseValues(form, test),
+  r <- list(trues = responseValues(formula, test),
             preds = preds)
   return(r)
 }
 
 #' Workflow for Gradient Boost
 #'
-#' @param form A formula object.
+#' @param formula A formula object.
 #' @param train A train dataset. Data.frame or tibble object.
 #' @param test A test dataset. Data.frame or tibble object.
 #' @param ... Additional paramters which can be passed into internal model.
@@ -158,18 +158,18 @@ wf.SERAGradientTreeBoost <- function(form, train, test,...){
 #'
 #' @examples
 
-wf.GradientBoost <- function(form, train, test,...){
+wf.GradientBoost <- function(formula, train, test,...){
 
-  preds <- GradientBoost(formula = form, train, test, ...)
+  preds <- GradientBoost(formula = formula, train, test, ...)
 
-  r <- list(trues = responseValues(form, test),
+  r <- list(trues = responseValues(formula, test),
             preds = preds)
   return(r)
 }
 
 #' Workflow for Gradient Tree Boost
 #'
-#' @param form A formula object.
+#' @param formula A formula object.
 #' @param train A train dataset. Data.frame or tibble object.
 #' @param test A test dataset. Data.frame or tibble object.
 #' @param ... Additional paramters which can be passed into internal model.
@@ -180,18 +180,18 @@ wf.GradientBoost <- function(form, train, test,...){
 #' @examples
 
 
-wf.GradientTreeBoost <- function(form, train, test,...){
+wf.GradientTreeBoost <- function(formula, train, test,...){
 
-  preds <- GradientTreeBoost(formula = form, train, test, ...)
+  preds <- GradientTreeBoost(formula = formula, train, test, ...)
 
-  r <- list(trues = responseValues(form, test),
+  r <- list(trues = responseValues(formula, test),
             preds = preds)
   return(r)
 }
 
 #' Workflow for Light Gradient Boost.
 #'
-#' @param form A formula object.
+#' @param formula A formula object.
 #' @param train A train dataset. Data.frame or tibble object.
 #' @param test A test dataset. Data.frame or tibble object.
 #' @param ... Additional paramters which can be passed into internal model.
@@ -239,7 +239,7 @@ wf.LGBM <- function(formula, train, test, ...){
 
 #' Workflow for Light Gradient Boost optimised with SERA.
 #'
-#' @param form A formula object.
+#' @param formula A formula object.
 #' @param train A train dataset. Data.frame or tibble object.
 #' @param test A test dataset. Data.frame or tibble object.
 #' @param ... Additional paramters which can be passed into internal model.
