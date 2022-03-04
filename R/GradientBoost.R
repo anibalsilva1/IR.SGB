@@ -7,8 +7,6 @@
 #' @param maxIter The maximum number of iterations.
 #' @param eta Learning rate.
 #' @param verbose Prints out the error across iterations (if 1).
-#' @param lambda Ridge regression parameter.
-#' @param maxdepth Max depth of a tree.
 #'
 #' @return A numeric vector with predictions.
 #' @export
@@ -35,9 +33,7 @@ GradientBoost <- function(formula,
                           test,
                           maxIter = 200,
                           eta = 0.01,
-                          verbose = 0,
-                          lambda = 10,
-                          maxdepth = 5){
+                          verbose = 0){
 
   rownames(train) <- 1:nrow(train)
   rownames(test) <- 1:nrow(test)
@@ -66,15 +62,15 @@ GradientBoost <- function(formula,
   while (t <= maxIter) {
 
     df$pseudo_res <- y - strongpreds
+    df <- df %>% relocate(pseudo_res)
 
 
     resWeak <- rpart::rpart(formula = pseudo_res ~ .,
-                            data = df,
-                            maxdepth = maxdepth)
+                            data = df)
 
     weakpreds <- predict(resWeak, X)
     stumps[[t]] <- resWeak
-    gammas[t] <- sum(weakpreds * df$pseudo_res)/sum(weakpreds^2 + lambda)
+    gammas[t] <- sum(weakpreds * df$pseudo_res)/sum(weakpreds^2)
 
     df$pseudo_res <- NULL
     strongpreds <- strongpreds + eta * gammas[t] * weakpreds

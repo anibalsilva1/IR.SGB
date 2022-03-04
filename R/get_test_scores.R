@@ -2,7 +2,7 @@
 #'
 #' @param predictions An object returned from \code{\link{get_predictions}}
 #' @param metric An character with the metric name. Possible values: \code{"sera"}, \code{"mse"}
-#' \code{"nrmse"}, \code{"ser"} and \code{r2}.
+#' \code{"nrmse"}, \code{"ser"}.
 #' @param tr A value with the threshold in case of \code{metric = "ser"}.
 #' @param norm A boolean that normalizes \code{metric = sera}.
 #'
@@ -23,37 +23,23 @@ get_test_scores <- function(predictions, metric = "sera", tr = 0.9, norm = F){
       res <- res %>%
         bind_rows(predictions[[d]]$preds %>%
                     summarise(across(everything(),
-                                     ~ mean((trues - .x)^2)
-                    )
-                    )
-        )
-    }
-    if(metric == "r2"){
-      res <- res %>%
-        bind_rows(predictions[[d]]$preds %>%
-                    summarise(across(everything(),
-                                     ~ cor(trues, .x))
-                    )
-        )
+                                     ~ mean((trues - .x)^2))))
     }
     else if(metric == "sera"){
       res <- res %>%
         bind_rows(predictions[[d]]$preds %>%
                     summarise(across(everything(),
-                                     ~ sera(trues = trues, preds = .x, phi.trues = phi(trues, predictions[[d]]$p.ctrl), norm = norm))
-
-                    )
-        )
+                                     ~ sera(trues = trues,
+                                            preds = .x,
+                                            phi.trues = phi(trues, predictions[[d]]$p.ctrl),
+                                            norm = norm))))
     }
     else if(metric == "nrmse"){
       nr <- nrow(predictions[[d]]$preds)
       res <- res %>%
         bind_rows(predictions[[d]]$preds %>%
                     summarise(across(everything(),
-                                     ~ sqrt(mean((trues - .x)^2))/(max(trues)-min(trues))
-                    )
-                    )
-        )
+                                     ~ sqrt(mean((trues - .x)^2))/(max(trues)-min(trues)))))
 
     }
     else if(metric == "ser"){
@@ -62,8 +48,27 @@ get_test_scores <- function(predictions, metric = "sera", tr = 0.9, norm = F){
       res <- res %>%
         bind_rows(predictions[[d]]$preds %>%
                     summarise(across(everything(),
-                                     ~ ser(trues, .x, phi(trues, predictions[[d]]$p.ctrl), t = tr)))
-        )
+                                     ~ ser(trues = trues,
+                                           preds = .x,
+                                           phi.trues = phi(trues,
+                                                           predictions[[d]]$p.ctrl),
+                                           t = tr))))
+    }
+    else if(metric == "sera"){
+      res <- res %>%
+        bind_rows(predictions[[d]]$preds %>%
+                    summarise(across(everything(),
+                                     ~ sera_norm(trues = trues,
+                                                 preds = .x,
+                                                 phi.trues = phi(trues,
+                                                                 predictions[[d]]$p.ctrl),
+                                                 norm = norm))))
+    }
+    else if(metric == "nmse"){
+      res <- res %>%
+        bind_rows(predictions[[d]]$preds %>%
+                    summarise(across(everything(),
+                                     ~ sum((trues - .x)^2)/sum((trues - mean(trues))^2))))
     }
   }
   res <- res %>%

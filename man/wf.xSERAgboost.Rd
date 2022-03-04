@@ -2,22 +2,22 @@
 % Please edit documentation in R/Workflows.R
 \name{wf.xSERAgboost}
 \alias{wf.xSERAgboost}
-\title{Workflow for xgboost optimised with SERA}
+\title{XGBoost(SERA) workflow}
 \usage{
 wf.xSERAgboost(formula, train, test, ...)
 }
 \arguments{
-\item{formula}{A formula object.}
+\item{formula}{A \code{formula} object.}
 
-\item{train}{A train dataset. Data.frame or tibble object.}
+\item{train}{\code{data.frame} or \code{tibble} object with the training set.}
 
-\item{test}{A test dataset. Data.frame or tibble object.}
+\item{test}{\code{data.frame} or \code{tibble} object with the test set.}
 
 \item{...}{Additional parameters which can be passed into internal model.}
 }
 \value{
-A list containing true values and predictions.
+A \code{list} containing true values and predictions.
 }
 \description{
-Workflow for xgboost optimised with SERA
+Workflow for XGBoost optimised with SERA.
 }

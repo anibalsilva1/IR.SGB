@@ -5,16 +5,7 @@
 \title{Determines predictions of a given dataset using the Gradient Boost for Regression using MSE as
 an optimisation loss function.}
 \usage{
-GradientBoost(
-  formula,
-  train,
-  test,
-  maxIter = 200,
-  eta = 0.01,
-  verbose = 0,
-  lambda = 10,
-  maxdepth = 5
-)
+GradientBoost(formula, train, test, maxIter = 200, eta = 0.01, verbose = 0)
 }
 \arguments{
 \item{formula}{A formula object.}
@@ -28,10 +19,6 @@ GradientBoost(
 \item{eta}{Learning rate.}
 
 \item{verbose}{Prints out the error across iterations (if 1).}
-
-\item{lambda}{Ridge regression parameter.}
-
-\item{maxdepth}{Max depth of a tree.}
 }
 \value{
 A numeric vector with predictions.

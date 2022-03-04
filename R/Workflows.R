@@ -1,33 +1,13 @@
-#' Workflow for Random Forests
+#' XGBoost workflow
 #'
-#' @param formula A formula object.
-#' @param train A train dataset. Data.frame or tibble object.
-#' @param test A test dataset. Data.frame or tibble object.
-#' @param ... Additional paramters which can be passed into internal model.
+#' @description Workflow for XGBoost.
 #'
-#' @return A list containing true values and predictions.
-#' @export
-#'
-#' @examples
-wf.ranger <- function(formula, train, test, ...){
-
-  m <- ranger::ranger(formula = formula, data =  train, ...)
-
-  preds <- predict(m, test)$predictions
-
-  r <- list(trues = performanceEstimation::responseValues(formula, test),
-            preds = preds)
-  return(r)
-}
-
-#' Workflow for xgboost
-#'
-#' @param formula A formula object.
-#' @param train A train dataset. Data.frame or tibble object.
-#' @param test A test dataset. Data.frame or tibble object.
+#' @param formula A \code{formula} object.
+#' @param train \code{data.frame} or \code{tibble} object with the training set.
+#' @param test \code{data.frame} or \code{tibble} object with the test set.
 #' @param ... Additional parameters which can be passed into internal model.
 #'
-#' @return A list containing true values and predictions.
+#' @return A \code{list} containing true values and predictions.
 #' @export
 #'
 #' @examples
@@ -62,14 +42,16 @@ wf.xgboost <- function(formula, train, test,...){
 
 }
 
-#' Workflow for xgboost optimised with SERA
+#' XGBoost(SERA) workflow
 #'
-#' @param formula A formula object.
-#' @param train A train dataset. Data.frame or tibble object.
-#' @param test A test dataset. Data.frame or tibble object.
+#' @description Workflow for XGBoost optimised with SERA.
+#'
+#' @param formula A \code{formula} object.
+#' @param train \code{data.frame} or \code{tibble} object with the training set.
+#' @param test \code{data.frame} or \code{tibble} object with the test set.
 #' @param ... Additional parameters which can be passed into internal model.
 #'
-#' @return A list containing true values and predictions.
+#' @return A \code{list} containing true values and predictions.
 #' @export
 #'
 #' @examples
@@ -92,7 +74,6 @@ wf.xSERAgboost <- function(formula, train, test,...){
                         verbose = 0,
                         booster = "dart",
                         objective = xgboostsera,
-                        #eval_metric = seraerr,
                         ...
   )
 
@@ -105,14 +86,16 @@ wf.xSERAgboost <- function(formula, train, test,...){
 
 }
 
-#' Workflow for Gradient Boost optimised with SERA.
+#' GB(SERA) workflow
 #'
-#' @param formula A formula object.
-#' @param train A train dataset. Data.frame or tibble object.
-#' @param test A test dataset. Data.frame or tibble object.
-#' @param ... Additional paramters which can be passed into internal model.
+#' @description Workflow for Gradient Boosting optimised with SERA.
 #'
-#' @return A list containing true values and predictions.
+#' @param formula A \code{formula} object.
+#' @param train \code{data.frame} or \code{tibble} object with the training set.
+#' @param test \code{data.frame} or \code{tibble} object with the test set.
+#' @param ... Additional parameters which can be passed into internal model.
+#'
+#' @return A \code{list} containing true values and predictions.
 #' @export
 #'
 #' @examples
@@ -126,14 +109,16 @@ wf.SERAGradientBoost <- function(formula, train, test,...){
 }
 
 
-#' Workflow for Gradient Tree Boost optimised with SERA.
+#' GBRT (SERA)
 #'
-#' @param formula A formula object.
-#' @param train A train dataset. Data.frame or tibble object.
-#' @param test A test dataset. Data.frame or tibble object.
-#' @param ... Additional paramters which can be passed into internal model.
+#' @description Workflow for Gradient Boosting Regression Trees optimised with SERA.
 #'
-#' @return A list containing true values and predictions.
+#' @param formula A \code{formula} object.
+#' @param train \code{data.frame} or \code{tibble} object with the training set.
+#' @param test \code{data.frame} or \code{tibble} object with the test set.
+#' @param ... Additional parameters which can be passed into internal model.
+#'
+#' @return A \code{list} containing true values and predictions.
 #' @export
 #'
 #' @examples
@@ -147,14 +132,16 @@ wf.SERAGradientTreeBoost <- function(formula, train, test,...){
   return(r)
 }
 
-#' Workflow for Gradient Boost
+#' GB
 #'
-#' @param formula A formula object.
-#' @param train A train dataset. Data.frame or tibble object.
-#' @param test A test dataset. Data.frame or tibble object.
-#' @param ... Additional paramters which can be passed into internal model.
+#' @description Workflow for Gradient Boosting.
 #'
-#' @return A list containing true values and predictions.
+#' @param formula A \code{formula} object.
+#' @param train \code{data.frame} or \code{tibble} object with the training set.
+#' @param test \code{data.frame} or \code{tibble} object with the test set.
+#' @param ... Additional parameters which can be passed into internal model.
+#'
+#' @return A \code{list} containing true values and predictions.
 #' @export
 #'
 #' @examples
@@ -168,14 +155,16 @@ wf.GradientBoost <- function(formula, train, test,...){
   return(r)
 }
 
-#' Workflow for Gradient Tree Boost
+#' GBRT
 #'
-#' @param formula A formula object.
-#' @param train A train dataset. Data.frame or tibble object.
-#' @param test A test dataset. Data.frame or tibble object.
-#' @param ... Additional paramters which can be passed into internal model.
+#' @description Workflow for Gradient Boosting Regression Trees.
 #'
-#' @return A list containing true values and predictions.
+#' @param formula A \code{formula} object.
+#' @param train \code{data.frame} or \code{tibble} object with the training set.
+#' @param test \code{data.frame} or \code{tibble} object with the test set.
+#' @param ... Additional parameters which can be passed into internal model.
+#'
+#' @return A \code{list} containing true values and predictions.
 #' @export
 #'
 #' @examples
@@ -190,14 +179,16 @@ wf.GradientTreeBoost <- function(formula, train, test,...){
   return(r)
 }
 
-#' Workflow for Light Gradient Boost.
+#' LGB
 #'
-#' @param formula A formula object.
-#' @param train A train dataset. Data.frame or tibble object.
-#' @param test A test dataset. Data.frame or tibble object.
-#' @param ... Additional paramters which can be passed into internal model.
+#' @description Workflow for Light Gradient Boosting Machines.
 #'
-#' @return A list containing true values and predictions.
+#' @param formula A \code{formula} object.
+#' @param train \code{data.frame} or \code{tibble} object with the training set.
+#' @param test \code{data.frame} or \code{tibble} object with the test set.
+#' @param ... Additional parameters which can be passed into internal model.
+#'
+#' @return A \code{list} containing true values and predictions.
 #' @export
 #'
 #' @examples
@@ -238,14 +229,16 @@ wf.LGBM <- function(formula, train, test, ...){
 
 }
 
-#' Workflow for Light Gradient Boost optimised with SERA.
+#' LGB(SERA)
 #'
-#' @param formula A formula object.
-#' @param train A train dataset. Data.frame or tibble object.
-#' @param test A test dataset. Data.frame or tibble object.
-#' @param ... Additional paramters which can be passed into internal model.
+#' @description Workflow for Light Gradient Boosting optimised with SERA.
 #'
-#' @return A list containing true values and predictions.
+#' @param formula A \code{formula} object.
+#' @param train \code{data.frame} or \code{tibble} object with the training set.
+#' @param test \code{data.frame} or \code{tibble} object with the test set.
+#' @param ... Additional parameters which can be passed into internal model.
+#'
+#' @return A \code{list} containing true values and predictions.
 #' @export
 #'
 #' @examples

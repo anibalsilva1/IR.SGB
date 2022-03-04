@@ -10,7 +10,7 @@ get_test_scores(predictions, metric = "sera", tr = 0.9, norm = F)
 \item{predictions}{An object returned from \code{\link{get_predictions}}}
 
 \item{metric}{An character with the metric name. Possible values: \code{"sera"}, \code{"mse"}
-\code{"nrmse"}, \code{"ser"} and \code{r2}.}
+\code{"nrmse"}, \code{"ser"}.}
 
 \item{tr}{A value with the threshold in case of \code{metric = "ser"}.}
 

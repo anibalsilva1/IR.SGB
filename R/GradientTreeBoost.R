@@ -62,6 +62,9 @@ GradientTreeBoost <- function(formula,
   while (t <= maxIter) {
 
     X$pseudo_res <- y - strongpreds
+
+    X <- X %>% relocate(pseudo_res)
+
     resWeak <- rpart::rpart(formula = pseudo_res ~ ., data = X)
     leaves[[t]] <- resWeak$where
 

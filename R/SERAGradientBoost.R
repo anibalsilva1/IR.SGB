@@ -6,8 +6,6 @@
 #' @param test The test dataset. An data.frame or tibble object.
 #' @param maxIter The maximum number of iterations.
 #' @param eta Learning rate.
-#' @param lambda Ridge regression parameter.
-#' @param maxdepth Max depth of a tree.
 #' @param verbose Prints out the error across iterations (if 1).
 #'
 #' @return A numeric vector with predictions.
@@ -76,16 +74,16 @@ SERAGradientBoost <- function(formula,
   while (t <= maxIter) {
 
     X$pseudo_res <- 2*sigmas*(y - strongpreds)
+    X <- X %>% relocate(pseudo_res)
 
     resWeak <- rpart::rpart(formula = pseudo_res ~ .,
-                     data = X,
-                     maxdepth = maxdepth)
+                     data = X)
 
     weakpreds <- predict(resWeak, X)
     stumps[[t]] <- resWeak
 
     errs_num <- sapply(step, FUN = function(i) sum(weakpreds[phi.trues >= i]*(y[phi.trues >= i] - strongpreds[phi.trues >= i])))
-    errs_den <- sapply(step, FUN = function(i) sum(weakpreds[phi.trues >= i]^2) + lambda)
+    errs_den <- sapply(step, FUN = function(i) sum(weakpreds[phi.trues >= i]^2))
 
     areas_num <- sum(sapply(2:length(step), FUN = function(x) s * (errs_num[x-1] + errs_num[x])/ 2 ))
     areas_den <- sum(sapply(2:length(step), FUN = function(x) s * (errs_den[x-1] + errs_den[x])/ 2 ))

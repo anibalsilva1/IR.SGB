@@ -12,7 +12,7 @@
 get_predictions <- function(datasets, bestmodels){
 
   nD <- names(datasets)
-  nWF <- pull(distinct(parameters, workflow))
+  nWF <- pull(distinct(bestmodels, workflow))
 
   preds_data <- list()
 
@@ -35,11 +35,11 @@ get_predictions <- function(datasets, bestmodels){
     ) %dopar% {
 
       if(nWF[wf] != "wf.ranger")
-        params <- parameters[parameters$dataset == nD[i] &
-                               parameters$workflow == nWF[wf], ]$params[[1]]
+        params <- bestmodels[bestmodels$dataset == nD[i] &
+                               bestmodels$workflow == nWF[wf], ]$params[[1]]
       else
-        params <- parameters[parameters$dataset == nD[i] &
-                               parameters$workflow == nWF[wf], ]$params[[1]]$learner.pars
+        params <- bestmodels[bestmodels$dataset == nD[i] &
+                               bestmodels$workflow == nWF[wf], ]$params[[1]]$learner.pars
 
       preds <- do.call(what = nWF[wf],
                        args = c(list(form, train, test), params))$preds

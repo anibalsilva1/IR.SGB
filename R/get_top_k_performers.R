@@ -12,11 +12,10 @@
 #' @examples
 get_top_k_performers <- function(res, k = 3, m.name, metric = "mse"){
 
-  library(dplyr)
-
-  res <- res %>% separate(workflow,
+  res <- res %>% tidyr::separate(workflow,
                           into = c("model", "version"),
-                          sep = ".v") %>% filter(model == m.name)
+                          sep = ".v") %>%
+    dplyr::filter(model == m.name)
 
     topMSE <- res %>% group_by(dataset) %>%
       slice_min(avg_mse, n = k) %>%

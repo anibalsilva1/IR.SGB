@@ -27,10 +27,6 @@ SERAGradientBoost(
 
 \item{eta}{Learning rate.}
 
-\item{lambda}{Ridge regression parameter.}
-
-\item{maxdepth}{Max depth of a tree.}
-
 \item{verbose}{Prints out the error across iterations (if 1).}
 }
 \value{

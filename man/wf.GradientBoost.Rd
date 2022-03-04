@@ -2,22 +2,22 @@
 % Please edit documentation in R/Workflows.R
 \name{wf.GradientBoost}
 \alias{wf.GradientBoost}
-\title{Workflow for Gradient Boost}
+\title{GB}
 \usage{
 wf.GradientBoost(formula, train, test, ...)
 }
 \arguments{
-\item{formula}{A formula object.}
+\item{formula}{A \code{formula} object.}
 
-\item{train}{A train dataset. Data.frame or tibble object.}
+\item{train}{\code{data.frame} or \code{tibble} object with the training set.}
 
-\item{test}{A test dataset. Data.frame or tibble object.}
+\item{test}{\code{data.frame} or \code{tibble} object with the test set.}
 
-\item{...}{Additional paramters which can be passed into internal model.}
+\item{...}{Additional parameters which can be passed into internal model.}
 }
 \value{
-A list containing true values and predictions.
+A \code{list} containing true values and predictions.
 }
 \description{
-Workflow for Gradient Boost
+Workflow for Gradient Boosting.
 }

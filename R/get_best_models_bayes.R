@@ -80,7 +80,7 @@ get_best_models_bayes <- function(res, workflows, metric = "mse", folds = 10){
     or <- names(oracles)[i]
 
     for(j in 1:ncol(oracles[[i]])){
-      print(paste0("Performing Bayes test for oracle ", or, " against ", colnames(oracles[[i]])[j]))
+      #print(paste0("Performing Bayes test for oracle ", or, " against ", colnames(oracles[[i]])[j]))
 
       test <- BayesianSignTest(diffVector = oracles[[i]][, j], rope_max = rope, rope_min = -rope)
 

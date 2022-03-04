@@ -74,6 +74,8 @@ SERAGradientTreeBoost <- function(formula,
 
     df$pseudo_res <- 2*sigmas*(y - strongpreds)
 
+    df <- df %>% relocate(pseudo_res)
+
     resWeak <- rpart::rpart(formula = pseudo_res ~ ., data = df)
     stumps[[t]] <- resWeak
     leaves[[t]] <- resWeak$where
