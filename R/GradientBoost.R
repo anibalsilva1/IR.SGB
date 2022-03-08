@@ -8,13 +8,15 @@
 #' @param eta Learning rate.
 #' @param verbose Prints out the error across iterations (if 1).
 #'
-#' @return A numeric vector with predictions.
+#' @return A numeric vector with predictions and execution time (in seconds).
 #' @export
 #'
 #' @examples
 #' \dontrun{
+#'
 #' library(IR.SGB)
 #' library(dplyr)
+#' library(rpart)
 #'
 #' n <- nrow(NO2Emissions)
 #' s <- sample(1:n, size = n*0.8)
@@ -23,8 +25,8 @@
 #' train <- NO2Emissions %>% slice(s)
 #' test <- NO2Emissions %>% slice(-s)
 #'
-#' preds <- GradientBoost(formula, train, test)
-#' preds}
+#' res <- GradientBoost(formula, train, test)
+#' res}
 
 
 
@@ -34,6 +36,8 @@ GradientBoost <- function(formula,
                           maxIter = 200,
                           eta = 0.01,
                           verbose = 0){
+
+  start_train_time <- Sys.time()
 
   rownames(train) <- 1:nrow(train)
   rownames(test) <- 1:nrow(test)
@@ -57,6 +61,10 @@ GradientBoost <- function(formula,
   t = 1
   F_0 <- mean(y)
   strongpreds <- rep(F_0, rows)
+
+
+  end_train_time <- Sys.time()
+  start_test_time <- Sys.time()
 
 
   while (t <= maxIter) {
@@ -96,6 +104,17 @@ GradientBoost <- function(formula,
 
   }
   finalpreds <- F_0 + sapply(1:m, FUN = function(i) eta * sum(gammas * preds[i ,]))
+
+  end_test_time <- Sys.time()
+
+  train_time <- as.numeric(difftime(end_train_time, start_train_time, units = "sec"))
+  test_time <- as.numeric(difftime(end_test_time, start_test_time, units = "sec"))
+
+
+  time <- c("train" = train_time, "test" = test_time)
+
+  return(list("preds" = finalpreds,
+              "time" = time))
 
   return(finalpreds)
 }

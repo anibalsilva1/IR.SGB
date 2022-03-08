@@ -1,14 +1,17 @@
-#' Determines predictions of a given dataset using the Gradient Boost for Regression using
+#' Gradient Boosting (SERA)
+#'
+#'
+#' @description Determines predictions of a given dataset using the Gradient Boost for Regression using
 #' SERA as an optimisation loss function.
 #'
-#' @param formula A formula object.
-#' @param train The training dataset. An data.frame or tibble object.
-#' @param test The test dataset. An data.frame or tibble object.
+#' @param formula A \code{formula object}.
+#' @param train A \code{data.frame} or \code{tibble} object with the training set.
+#' @param test A \code{data.frame} or \code{tibble} object with the test set.
 #' @param maxIter The maximum number of iterations.
 #' @param eta Learning rate.
 #' @param verbose Prints out the error across iterations (if 1).
 #'
-#' @return A numeric vector with predictions.
+#' @return A numeric vector with predictions and execution time (in seconds).
 #' @export
 #'
 #' @examples
@@ -23,8 +26,8 @@
 #' train <- NO2Emissions %>% slice(s)
 #' test <- NO2Emissions %>% slice(-s)
 #'
-#' preds <- SERAGradientTreeBoost(formula, train, test)
-#' preds
+#' res <- SERAGradientTreeBoost(formula, train, test)
+#' res
 #' }
 
 SERAGradientBoost <- function(formula,
@@ -32,9 +35,9 @@ SERAGradientBoost <- function(formula,
                               test,
                               maxIter = 100,
                               eta = 0.01,
-                              lambda = 10,
-                              maxdepth = 5,
                               verbose = 0){
+
+  start_train_time <- Sys.time()
 
   rownames(train) <- 1:nrow(train)
   rownames(test) <- 1:nrow(test)
@@ -103,6 +106,8 @@ SERAGradientBoost <- function(formula,
     t = t+1
 
   }
+  end_train_time <- Sys.time()
+  start_test_time <- Sys.time()
 
   m = nrow(test)
   n = length(stumps)
@@ -116,5 +121,13 @@ SERAGradientBoost <- function(formula,
   }
   finalpreds <- F_0 + sapply(1:m, FUN = function(i) eta * sum(gammas * preds[i ,]))
 
-  return(finalpreds)
+  end_test_time <- Sys.time()
+
+  train_time <- as.numeric(difftime(end_train_time, start_train_time, units = "sec"))
+  test_time <- as.numeric(difftime(end_test_time, start_test_time, units = "sec"))
+
+  time <- c("train" = train_time, "test" = test_time)
+
+  return(list("preds" = finalpreds,
+              "time" = time))
 }

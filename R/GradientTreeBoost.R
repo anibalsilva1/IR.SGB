@@ -1,20 +1,26 @@
-#' Determines predictions of a given dataset using the Gradient Tree Boost for Regression using
+#' Gradient Tree Boosting
+#'
+#' @description Determines predictions of a given dataset using the Gradient Tree Boost for Regression using
 #' MSE as an optimisation loss function.
 #'
-#' @param formula A formula object.
-#' @param train A data.frame or tibble object. The training dataset.
-#' @param test A data.frame or tibble object. The test dataset.
+#' @param formula A \code{formula object}.
+#' @param train A \code{data.frame} or \code{tibble} object with the training set.
+#' @param test A \code{data.frame} or \code{tibble} object with the test set.
 #' @param maxIter The maximum number of iterations.
 #' @param eta Learning rate.
 #' @param verbose Prints out the error across iterations (if 1)
 #'
-#' @return A vector with predictions.
+#' @return A numeric vector with predictions and execution time (in seconds).
 #' @export
 #'
 #' @examples
 #' \dontrun{
+#'
 #' library(IR.SGB)
 #' library(dplyr)
+#' library(rpart)
+#' library(treeClust)
+#'
 #' n <- nrow(NO2Emissions)
 #' s <- sample(1:n, size = n*0.8)
 #'
@@ -22,8 +28,8 @@
 #' train <- NO2Emissions %>% slice(s)
 #' test <- NO2Emissions %>% slice(-s)
 #'
-#' preds <- GradientTreeBoost(formula, train, test)
-#' preds
+#' res <- GradientTreeBoost(formula, train, test)
+#' res
 #' }
 
 GradientTreeBoost <- function(formula,
@@ -33,9 +39,12 @@ GradientTreeBoost <- function(formula,
                               eta = 0.01,
                               verbose = 0){
 
-  ### FIX ROWNAMES BECAUSE OF UNORDERED LEAF NAMES
+  start_train_time <- Sys.time()
+
   rownames(train) <- 1:nrow(train)
   rownames(test) <- 1:nrow(test)
+
+
 
   target <- formula[[2]]
 
@@ -91,6 +100,9 @@ GradientTreeBoost <- function(formula,
 
   }
 
+  end_train_time <- Sys.time()
+  start_test_time <- Sys.time()
+
   n = nrow(test)
   m = length(stumps)
 
@@ -106,5 +118,13 @@ GradientTreeBoost <- function(formula,
     eta * sum(sapply(1:m,
                      FUN = function(m) gammas[[m]][names(gammas[[m]]) == leaves_preds[[m]][names(leaves_preds[[m]]) == i]])))
 
-  return(finalpreds)
+  end_test_time <- Sys.time()
+
+  train_time <- as.numeric(difftime(end_train_time, start_train_time, units = "sec"))
+  test_time <- as.numeric(difftime(end_test_time, start_test_time, units = "sec"))
+
+  time <- c("train" = train_time, "test" = test_time)
+
+  return(list("preds" = finalpreds,
+              "time" = time))
 }

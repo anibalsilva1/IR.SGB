@@ -19,5 +19,25 @@ wf.SERAGradientBoost(formula, train, test, ...)
 A \code{list} containing true values and predictions.
 }
 \description{
-Workflow for Gradient Boosting optimised with SERA.
+Workflow for Gradient Boosting optimized with SERA.
+}
+\examples{
+\dontrun{
+
+library(IR.SGB)
+library(IRon)
+library(dplyr)
+library(rpart)
+
+n <- nrow(NO2Emissions)
+s <- sample(1:n, size = n*0.8)
+
+formula <- LNO2 ~ .
+train <- NO2Emissions \%>\% dplyr::slice(s)
+test <- NO2Emissions \%>\% dplyr::slice(-s)
+
+
+res <- wf.SERAGradientBoost(formula, train, test)
+res
+}
 }

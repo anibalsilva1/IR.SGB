@@ -4,7 +4,7 @@
 \alias{get_best_models_bayes}
 \title{Performs pair-wise Bayes Sign Test for the topK workflows in a given model.}
 \usage{
-get_best_models_bayes(res, workflows, metric = "mse", folds = 10)
+get_best_models_bayes(res, workflows, metric = "sera", folds = 10)
 }
 \arguments{
 \item{res}{A ComparisonResults object.}

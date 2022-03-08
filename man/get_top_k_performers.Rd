@@ -2,10 +2,9 @@
 % Please edit documentation in R/get_top_k_performers.R
 \name{get_top_k_performers}
 \alias{get_top_k_performers}
-\title{Given a data.frame with all the workflows for each data.frame, returns a character
-vector with \code{k} workflows that had the lowest error across all datasets.}
+\title{Top k Performers}
 \usage{
-get_top_k_performers(res, k = 3, m.name, metric = "mse")
+get_top_k_performers(res, k = 3, m.name)
 }
 \arguments{
 \item{res}{A data.frame returned from \code{\link{get_avg_scores_by_metric}}.}
@@ -13,13 +12,11 @@ get_top_k_performers(res, k = 3, m.name, metric = "mse")
 \item{k}{A numeric with the number of workflows to return.}
 
 \item{m.name}{A character with the name of the model.}
-
-\item{metric}{A character with the metric.}
 }
 \value{
 A character vector with the top-k workflows.
 }
 \description{
-Given a data.frame with all the workflows for each data.frame, returns a character
+Given a \code{data.frame} with all the workflows for each dataset, returns a character
 vector with \code{k} workflows that had the lowest error across all datasets.
 }

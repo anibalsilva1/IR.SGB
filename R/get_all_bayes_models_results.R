@@ -21,7 +21,7 @@ get_all_best_models_bayes <- function(res, df, models, metric = "sera"){
 
     print(paste0("Getting results for model ", model))
 
-    topkperf <- get_top_k_performers(df, m.name = model, metric = metric)
+    topkperf <- get_top_k_performers(df, m.name = model)
     bayesdf <- get_best_models_bayes(res, workflows = topkperf, metric = metric)
 
     results[[model]] <- bayesdf

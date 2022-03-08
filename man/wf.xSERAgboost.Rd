@@ -16,8 +16,30 @@ wf.xSERAgboost(formula, train, test, ...)
 \item{...}{Additional parameters which can be passed into internal model.}
 }
 \value{
-A \code{list} containing true values and predictions.
+A \code{list} containing trues, predictions and execution time (in seconds).
 }
 \description{
 Workflow for XGBoost optimised with SERA.
+}
+\examples{
+\dontrun{
+
+library(IR.SGB)
+library(dplyr)
+library(IRon)
+library(xgboost)
+
+n <- nrow(NO2Emissions)
+s <- sample(1:n, size = n*0.8)
+
+formula <- LNO2 ~ .
+train <- NO2Emissions \%>\% dplyr::slice(s)
+test <- NO2Emissions \%>\% dplyr::slice(-s)
+
+nrounds = 100
+
+
+res <- wf.xSERAgboost(formula, train, test, nrounds)
+res
+}
 }

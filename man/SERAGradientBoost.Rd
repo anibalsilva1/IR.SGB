@@ -2,26 +2,16 @@
 % Please edit documentation in R/SERAGradientBoost.R
 \name{SERAGradientBoost}
 \alias{SERAGradientBoost}
-\title{Determines predictions of a given dataset using the Gradient Boost for Regression using
-SERA as an optimisation loss function.}
+\title{Gradient Boosting (SERA)}
 \usage{
-SERAGradientBoost(
-  formula,
-  train,
-  test,
-  maxIter = 100,
-  eta = 0.01,
-  lambda = 10,
-  maxdepth = 5,
-  verbose = 0
-)
+SERAGradientBoost(formula, train, test, maxIter = 100, eta = 0.01, verbose = 0)
 }
 \arguments{
-\item{formula}{A formula object.}
+\item{formula}{A \code{formula object}.}
 
-\item{train}{The training dataset. An data.frame or tibble object.}
+\item{train}{A \code{data.frame} or \code{tibble} object with the training set.}
 
-\item{test}{The test dataset. An data.frame or tibble object.}
+\item{test}{A \code{data.frame} or \code{tibble} object with the test set.}
 
 \item{maxIter}{The maximum number of iterations.}
 
@@ -30,7 +20,7 @@ SERAGradientBoost(
 \item{verbose}{Prints out the error across iterations (if 1).}
 }
 \value{
-A numeric vector with predictions.
+A numeric vector with predictions and execution time (in seconds).
 }
 \description{
 Determines predictions of a given dataset using the Gradient Boost for Regression using
@@ -48,7 +38,7 @@ formula <- LNO2 ~ .
 train <- NO2Emissions \%>\% slice(s)
 test <- NO2Emissions \%>\% slice(-s)
 
-preds <- SERAGradientTreeBoost(formula, train, test)
-preds
+res <- SERAGradientTreeBoost(formula, train, test)
+res
 }
 }

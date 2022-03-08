@@ -10,7 +10,7 @@
 #' @export
 #'
 #' @examples
-get_best_models_bayes <- function(res, workflows, metric = "mse", folds = 10){
+get_best_models_bayes <- function(res, workflows, metric = "sera", folds = 10){
 
   datasets <- names(res)
   nwfs <- length(workflows)
@@ -24,9 +24,9 @@ get_best_models_bayes <- function(res, workflows, metric = "mse", folds = 10){
       errs <- c()
       for(k in 1:folds){
 
-        if(metric == "mse" | metric == "sera"){
+        if(metric == "mse" | metric == "sera" | metric == "relMSE"){
           err <- res[[ds]][[wf]]@iterationsScores[k, metric]
-          errs <- err
+          errs <- c(errs,err)
         }
         else if(metric == "nrmse"){
 
@@ -43,7 +43,6 @@ get_best_models_bayes <- function(res, workflows, metric = "mse", folds = 10){
     }
     results <- as.data.frame(results)
     i = 1
-
     ## orcls
     while(i <= nwfs){
 

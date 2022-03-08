@@ -2,8 +2,7 @@
 % Please edit documentation in R/SERAGradientTreeBoost.R
 \name{SERAGradientTreeBoost}
 \alias{SERAGradientTreeBoost}
-\title{Determines predictions of a given dataset using the Gradient Tree Boost for Regression using
-SERA as an optimisation loss function.}
+\title{Gradient Tree Boosting (SERA)}
 \usage{
 SERAGradientTreeBoost(
   formula,
@@ -15,20 +14,20 @@ SERAGradientTreeBoost(
 )
 }
 \arguments{
-\item{formula}{A formula object.}
+\item{formula}{A \code{formula} object.}
 
-\item{train}{A data.frame or tibble object. The training dataset.}
+\item{train}{A \code{data.frame} or \code{tibble} object with the training set.}
 
-\item{test}{A data.frame or tibble object. The test dataset.}
+\item{test}{A \code{data.frame} or \code{tibble} object with the test set.}
 
 \item{maxIter}{The maximum number of iterations.}
 
 \item{eta}{Learning rate.}
 
-\item{verbose}{Prints out the error across iterations (if 1)}
+\item{verbose}{Prints out the error across iterations (if 1).}
 }
 \value{
-A numeric vector with predictions.
+A numeric vector with predictions and execution time (in seconds).
 }
 \description{
 Determines predictions of a given dataset using the Gradient Tree Boost for Regression using
@@ -36,8 +35,12 @@ SERA as an optimisation loss function.
 }
 \examples{
 \dontrun{
+
 library(IR.SGB)
 library(dplyr)
+library(rpart)
+library(treeClust)
+library(IRon)
 
 n <- nrow(NO2Emissions)
 s <- sample(1:n, size = n*0.8)
@@ -46,7 +49,7 @@ formula <- LNO2 ~ .
 train <- NO2Emissions \%>\% slice(s)
 test <- NO2Emissions \%>\% slice(-s)
 
-preds <- SERAGradientTreeBoost(formula, train, test)
-preds
+res <- SERAGradientTreeBoost(formula, train, test)
+res
 }
 }

@@ -54,7 +54,7 @@ get_diffs_bayes <- function(res,
             err <- sqrt(err)/(max(trues) - min(trues))
 
           }
-          else if(metric == "mse" | metric == "sera"){
+          else if(metric == "mse" | metric == "sera" | metric == "relMSE"){
 
             err <- res[[ds]][[bm]]@iterationsScores[k, metric]
           }
@@ -114,8 +114,6 @@ get_diffs_bayes <- function(res,
 
       resBayes <- resBayes %>%
         dplyr::mutate(
-          #oracle = str_extract(oracle, "(?<=wf\\.)(.*)(?=\\.v\\d+)"),
-          #model = str_extract(model, "(?<=wf\\.)(.*)(?=\\.v\\d+)"),
           modelProb = sprintf("%0.3f", modelProb),
           oracleProb = sprintf("%0.3f", oracleProb),
           rope = sprintf("%0.3f", rope))

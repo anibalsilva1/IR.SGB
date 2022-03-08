@@ -25,14 +25,12 @@ get_test_scores <- function(predictions, metric = "sera", tr = 0.9, norm = F){
                     summarise(across(everything(),
                                      ~ mean((trues - .x)^2))))
     }
-    else if(metric == "sera"){
+    else if(metric == "relMSE"){
+      nr <- nrow(predictions[[d]]$preds)
       res <- res %>%
         bind_rows(predictions[[d]]$preds %>%
                     summarise(across(everything(),
-                                     ~ sera(trues = trues,
-                                            preds = .x,
-                                            phi.trues = phi(trues, predictions[[d]]$p.ctrl),
-                                            norm = norm))))
+                                     ~ relMSE(trues, .x, phi.trues))))
     }
     else if(metric == "nrmse"){
       nr <- nrow(predictions[[d]]$preds)

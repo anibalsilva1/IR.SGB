@@ -21,7 +21,7 @@ GradientBoost(formula, train, test, maxIter = 200, eta = 0.01, verbose = 0)
 \item{verbose}{Prints out the error across iterations (if 1).}
 }
 \value{
-A numeric vector with predictions.
+A numeric vector with predictions and execution time (in seconds).
 }
 \description{
 Determines predictions of a given dataset using the Gradient Boost for Regression using MSE as
@@ -29,8 +29,10 @@ an optimisation loss function.
 }
 \examples{
 \dontrun{
+
 library(IR.SGB)
 library(dplyr)
+library(rpart)
 
 n <- nrow(NO2Emissions)
 s <- sample(1:n, size = n*0.8)
@@ -39,6 +41,6 @@ formula <- LNO2 ~ .
 train <- NO2Emissions \%>\% slice(s)
 test <- NO2Emissions \%>\% slice(-s)
 
-preds <- GradientBoost(formula, train, test)
-preds}
+res <- GradientBoost(formula, train, test)
+res}
 }
