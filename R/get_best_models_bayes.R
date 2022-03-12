@@ -1,4 +1,6 @@
-#' Performs pair-wise Bayes Sign Test for the topK workflows in a given model.
+#' Get Best Bayes models
+#'
+#' @description Performs pairwise Bayes Sign Test for the top-k workflows in a given model.
 #'
 #' @param res A ComparisonResults object.
 #' @param workflows A character vector with the best workflows for a given model.
@@ -6,10 +8,11 @@
 #' Bayes Sign Test.
 #' @param folds A numeric value denoting the number of folds.
 #'
-#' @return A dataframe containing all the pair-wise evaluation of Bayes Sign Test.
+#' @return A \code{data.frame} containing all the pair-wise evaluation of Bayes Sign Test.
 #' @export
 #'
 #' @examples
+
 get_best_models_bayes <- function(res, workflows, metric = "sera", folds = 10){
 
   datasets <- names(res)

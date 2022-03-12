@@ -1,13 +1,15 @@
-#' Performs predictions for the best models given a list of datasets.
+#' Get Predictions
 #'
-#' @param datasets A list containing the datasets with their information.
-#' @param bestmodels A dataframe with the best models.
+#' @description Performs predictions for the best models given a list of datasets.
 #'
-#' @return A list with the predictions for each dataset. This predictions
-#' will be inside a dataframe, where each column will be the predictions of each model.
+#' @param datasets A \code{list} containing the datasets with their information.
+#' @param bestmodels A \code{data.frame} with the best models.
+#'
+#' @return A \code{list} with the predictions and execution time for each dataset.
+#' This predictions will be inside a dataframe, where each column will be the
+#' predictions of each model.
 #' @export
-#' @import doParallel
-#' @importFrom foreach foreach %dopar%
+
 #' @examples
 get_predictions <- function(datasets, bestmodels){
 
@@ -42,15 +44,26 @@ get_predictions <- function(datasets, bestmodels){
                                bestmodels$workflow == nWF[wf], ]$params[[1]]$learner.pars
 
       preds <- do.call(what = nWF[wf],
-                       args = c(list(form, train, test), params))$preds
+                       args = c(list(form, train, test), params))
     }
 
+    list_preds <- list()
+    list_times <- list()
 
-    preds_df <- as_tibble(do.call("cbind", preds_wf))
+    n <- names(preds_wf)
+
+    for(j in n){
+
+      list_preds[[j]] <- preds_wf[[j]]$preds
+      list_times[[j]] <- preds_wf[[j]]$time
+    }
+
+    preds_df <- as_tibble(do.call("cbind", list_preds))
     df <- bind_cols(df, preds_df)
 
-    preds_data[[nD[i]]] <- list(preds = df,
-                                p.ctrl = p.ctrl)
+    preds_data[[nD[i]]] <- list("preds" = df,
+                                "times" = list_times,
+                                "p.ctrl" = p.ctrl)
 
   }
   return(preds_data)
