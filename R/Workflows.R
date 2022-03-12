@@ -381,6 +381,8 @@ wf.LGBM <- function(formula, train, test, ...){
 
   preds <- predict(m, lgbm_test_m)
 
+  end_test_time <- Sys.time()
+
   train_time <- as.numeric(difftime(end_train_time, start_train_time, units = "sec"))
   test_time <- as.numeric(difftime(end_test_time, start_test_time, units = "sec"))
 

@@ -56,11 +56,11 @@ get_test_scores <- function(predictions, metric = "sera", tr = 0.9, norm = F){
       res <- res %>%
         bind_rows(predictions[[d]]$preds %>%
                     summarise(across(everything(),
-                                     ~ sera_norm(trues = trues,
-                                                 preds = .x,
-                                                 phi.trues = phi(trues,
-                                                                 predictions[[d]]$p.ctrl),
-                                                 norm = norm))))
+                                     ~ sera(trues = trues,
+                                            preds = .x,
+                                            phi.trues = phi(trues,
+                                                            predictions[[d]]$p.ctrl),
+                                            norm = norm))))
     }
     else if(metric == "nmse"){
       res <- res %>%
