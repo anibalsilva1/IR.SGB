@@ -80,7 +80,7 @@ SERAGradientBoost <- function(formula,
     X <- X %>% relocate(pseudo_res)
 
     resWeak <- rpart::rpart(formula = pseudo_res ~ .,
-                     data = X)
+                            data = X)
 
     weakpreds <- predict(resWeak, X)
     stumps[[t]] <- resWeak

@@ -46,7 +46,6 @@ GradientBoost <- function(formula,
 
   y <- dplyr::pull(train, target)
   X <- dplyr::select(train, -target)
-  df <- X
 
   stumps <- list()
   gammas <- c()
@@ -69,19 +68,21 @@ GradientBoost <- function(formula,
 
   while (t <= maxIter) {
 
-    df$pseudo_res <- y - strongpreds
-    df <- df %>% relocate(pseudo_res)
+    X$pseudo_res <- y - strongpreds
+    X <- X %>% relocate(pseudo_res)
 
 
     resWeak <- rpart::rpart(formula = pseudo_res ~ .,
-                            data = df)
+                            data = X)
 
     weakpreds <- predict(resWeak, X)
     stumps[[t]] <- resWeak
-    gammas[t] <- sum(weakpreds * df$pseudo_res)/sum(weakpreds^2)
+    gammas[t] <- sum(weakpreds * X$pseudo_res)/sum(weakpreds^2)
 
-    df$pseudo_res <- NULL
+
     strongpreds <- strongpreds + eta * gammas[t] * weakpreds
+
+    X <- dplyr::select(X, -pseudo_res)
 
 
 
