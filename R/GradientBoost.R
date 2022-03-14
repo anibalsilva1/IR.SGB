@@ -61,11 +61,6 @@ GradientBoost <- function(formula,
   F_0 <- mean(y)
   strongpreds <- rep(F_0, rows)
 
-
-  end_train_time <- Sys.time()
-  start_test_time <- Sys.time()
-
-
   while (t <= maxIter) {
 
     X$pseudo_res <- y - strongpreds
@@ -98,6 +93,9 @@ GradientBoost <- function(formula,
   n = length(stumps)
   preds <- matrix(0, nrow = m, ncol = n)
   finalpreds <- c()
+
+  end_train_time <- Sys.time()
+  start_test_time <- Sys.time()
 
   for (i in 1:n) {
 
