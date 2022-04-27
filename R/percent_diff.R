@@ -28,8 +28,8 @@ percent_diff <- function(preds, models){
 
     for(i in 1:n){
 
-      ds <- preds[[n]]$preds
-      ph.ctrl <- preds[[n]]$p.ctrl
+      ds <- preds[[i]]$preds
+      ph.ctrl <- preds[[i]]$p.ctrl
 
       tr <- ds$trues
 

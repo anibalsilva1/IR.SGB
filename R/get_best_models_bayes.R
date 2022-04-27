@@ -27,7 +27,7 @@ get_best_models_bayes <- function(res, workflows, metric = "sera", folds = 10){
       errs <- c()
       for(k in 1:folds){
 
-        if(metric == "mse" | metric == "sera" | metric == "relMSE"){
+        if(metric == "mse" | metric == "sera" | isTRUE(grepl("relMSE", metric))){
           err <- res[[ds]][[wf]]@iterationsScores[k, metric]
           errs <- c(errs,err)
         }

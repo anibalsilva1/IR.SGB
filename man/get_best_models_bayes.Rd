@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_best_models_bayes.R
 \name{get_best_models_bayes}
 \alias{get_best_models_bayes}
-\title{Performs pair-wise Bayes Sign Test for the topK workflows in a given model.}
+\title{Get Best Bayes models}
 \usage{
 get_best_models_bayes(res, workflows, metric = "sera", folds = 10)
 }
@@ -17,8 +17,8 @@ Bayes Sign Test.}
 \item{folds}{A numeric value denoting the number of folds.}
 }
 \value{
-A dataframe containing all the pair-wise evaluation of Bayes Sign Test.
+A \code{data.frame} containing all the pair-wise evaluation of Bayes Sign Test.
 }
 \description{
-Performs pair-wise Bayes Sign Test for the topK workflows in a given model.
+Performs pairwise Bayes Sign Test for the top-k workflows in a given model.
 }

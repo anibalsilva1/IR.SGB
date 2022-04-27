@@ -2,18 +2,19 @@
 % Please edit documentation in R/get_predictions.R
 \name{get_predictions}
 \alias{get_predictions}
-\title{Performs predictions for the best models given a list of datasets.}
+\title{Get Predictions}
 \usage{
 get_predictions(datasets, bestmodels)
 }
 \arguments{
-\item{datasets}{A list containing the datasets with their information.}
+\item{datasets}{A \code{list} containing the datasets with their information.}
 
-\item{bestmodels}{A dataframe with the best models.}
+\item{bestmodels}{A \code{data.frame} with the best models.}
 }
 \value{
-A list with the predictions for each dataset. This predictions
-will be inside a dataframe, where each column will be the predictions of each model.
+A \code{list} with the predictions and execution time for each dataset.
+This predictions will be inside a dataframe, where each column will be the
+predictions of each model.
 }
 \description{
 Performs predictions for the best models given a list of datasets.
