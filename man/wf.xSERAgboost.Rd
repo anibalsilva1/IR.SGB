@@ -39,7 +39,7 @@ test <- NO2Emissions \%>\% dplyr::slice(-s)
 nrounds = 100
 
 
-res <- wf.xSERAgboost(formula, train, test, nrounds)
+res <- wf.xSERAgboost(formula, train, test, nrounds=nrounds)
 res
 }
 }

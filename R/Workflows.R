@@ -2,7 +2,7 @@
 #'
 #' @description Workflow for XGBoost.
 #'
-#' @param formula A \code{formula} object.
+#' @param formula \code{formula} object.
 #' @param train \code{data.frame} or \code{tibble} object with the training set.
 #' @param test \code{data.frame} or \code{tibble} object with the test set.
 #' @param ... Additional parameters which can be passed into internal model.
@@ -27,7 +27,7 @@
 #' nrounds = 100
 #'
 #'
-#' res <- wf.xgboost(formula, train, test, nrounds)
+#' res <- wf.xgboost(formula, train, test, nrounds=nrounds)
 #' res
 #' }
 
@@ -102,7 +102,7 @@ wf.xgboost <- function(formula, train, test, ...){
 #' nrounds = 100
 #'
 #'
-#' res <- wf.xSERAgboost(formula, train, test, nrounds)
+#' res <- wf.xSERAgboost(formula, train, test, nrounds=nrounds)
 #' res
 #' }
 
@@ -344,7 +344,7 @@ wf.GradientTreeBoost <- function(formula, train, test,...){
 #'
 #' nrounds <- 100
 #'
-#' res <- wf.LGBM(formula, train, test, nrounds)
+#' res <- wf.LGBM(formula, train, test, nrounds=nrounds)
 #' res
 #' }
 
@@ -424,7 +424,7 @@ wf.LGBM <- function(formula, train, test, ...){
 #'
 #' nrounds <- 100
 #'
-#' res <- wf.LGBMSERA(formula, train, test, nrounds)
+#' res <- wf.LGBMSERA(formula, train, test, nrounds=nrounds)
 #' res
 #' }
 

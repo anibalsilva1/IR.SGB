@@ -1,7 +1,10 @@
-#' Custom adaptation of SERA to xgboost.
+#' Gradients Statistics of SERA for XGBoost.
 #'
-#' @param preds A numeric vector of predictions.
-#' @param dtrain A xgb.DMatrix object.
+#' @description Determines the gradient statistics of SERA to be used in
+#' XGBoost algorithm as a custom loss function.
+#'
+#' @param preds Numeric \code{vector} of predictions.
+#' @param dtrain \code{xgb.DMatrix} object.
 #'
 #' @return Returns a list containing the gradient and the hessian of SERA.
 #' @export
@@ -16,8 +19,11 @@ xgboostsera <- function(preds, dtrain){
   step <- seq(0,1,s)
   N <- length(step)
 
-  phi.ctrl <- phi.control(labels)
+  p.extrm <- get_extreme_type(labels)
+  phi.ctrl <- phi.control(labels, extr.type = p.extrm)
+
   phi.trues <- phi(labels, phi.ctrl)
+
   sigmas <- get_sigma(phi.trues, step)
   sigmas <- sigmas/N
 
@@ -28,10 +34,13 @@ xgboostsera <- function(preds, dtrain){
   return(list(grad = grad, hess = hess))
 }
 
-#' Custom adaptation of SERA to Light GBM.
+#' Gradient Statistics of SERA for LGBM.
 #'
-#' @param preds A numeric vector of predictions.
-#' @param dtrain A lgb.Dataset object.
+#' @description Determines the gradient statistics of SERA to be used in
+#' LGBM algorithm as a custom loss function.
+#'
+#' @param preds Numeric \text{vector} of predictions.
+#' @param dtrain A \code{lgb.Dataset} object.
 #'
 #' @return  Returns a list containing the gradient and the hessian of SERA.
 #' @export
@@ -46,23 +55,25 @@ lgbmsera <- function(preds, dtrain){
   step <- seq(0,1,s)
   N <- length(step)
 
-  #
-  phi.ctrl <- phi.control(labels)
+  p.extrm <- get_extreme_type(labels)
+  phi.ctrl <- phi.control(labels, extr.type = p.extrm)
+
   phi.trues <- phi(labels, phi.ctrl)
   sigmas <- get_sigma(phi.trues, step)
   sigmas <- sigmas/N
 
-  #grad <- sera_deriv(labels, preds, phi = phi.trues)
   grad <- 2*sigmas*(preds - labels)
   hess <- 2*sigmas
 
   return(list(grad = grad, hess = hess))
 }
 
-#' Function to be used with performanceEstimation
+#' Metrics to be used with \code{performanceEstimation}.
 #'
-#' @param trues A numeric vector with true values.
-#' @param preds A numeric vector with predictions.
+#' @description Metrics to be used with \code{performanceEstimation}.
+#'
+#' @param trues Numeric \code{vector} with true values.
+#' @param preds Numeric \code{vector} with predictions.
 #' @param phi.ctrl Control points.
 #' @param ... Additional arguments.
 #'

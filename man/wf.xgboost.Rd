@@ -7,7 +7,7 @@
 wf.xgboost(formula, train, test, ...)
 }
 \arguments{
-\item{formula}{A \code{formula} object.}
+\item{formula}{\code{formula} object.}
 
 \item{train}{\code{data.frame} or \code{tibble} object with the training set.}
 
@@ -38,7 +38,7 @@ test <- NO2Emissions \%>\% dplyr::slice(-s)
 nrounds = 100
 
 
-res <- wf.xgboost(formula, train, test, nrounds)
+res <- wf.xgboost(formula, train, test, nrounds=nrounds)
 res
 }
 }

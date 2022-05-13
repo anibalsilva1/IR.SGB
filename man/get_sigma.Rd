@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_sigma.R
 \name{get_sigma}
 \alias{get_sigma}
-\title{Calculas que number of occurrences where a given prediction appears in the relevance function space.}
+\title{Get sigma.}
 \usage{
 get_sigma(phi, steps)
 }
@@ -15,5 +15,6 @@ get_sigma(phi, steps)
 A numeric vector with the number of occurrences of a given observation.
 }
 \description{
-Calculas que number of occurrences where a given prediction appears in the relevance function space.
+Calculates the number of instances have a relevance until a given
+threshold.
 }

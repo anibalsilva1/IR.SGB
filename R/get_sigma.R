@@ -1,4 +1,7 @@
-#' Calculas que number of occurrences where a given prediction appears in the relevance function space.
+#' Get sigma.
+#'
+#' @description Calculates the number of instances have a relevance until a given
+#' threshold.
 #'
 #' @param phi A numeric vector with the relevance values of the target variable.
 #' @param steps A numeric vector with steps.

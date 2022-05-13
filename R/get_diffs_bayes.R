@@ -35,6 +35,7 @@ get_diffs_bayes <- function(res,
 
       results <- matrix(nrow = folds, ncol = nbm, dimnames = list(NULL, bestmodels))
 
+      # gets errors in each fold for each model and appends to results matrix
       for(bm in bestmodels){
         errs <- c()
 
@@ -68,6 +69,7 @@ get_diffs_bayes <- function(res,
       results <- as.data.frame(results)
       orcl <- results[, oracle]
 
+      # calculates the "normalized" mean difference between models and oracles
       results <- results %>%
         dplyr::mutate(across(everything(), ~ (.x - orcl)/orcl)) %>%
         dplyr::summarise(across(everything(), ~ mean(.x)))
@@ -82,6 +84,7 @@ get_diffs_bayes <- function(res,
       resf[i, ] <- as.numeric(resds[[i]])
     }
 
+    # drops oracle
     resf <- as.data.frame(resf)
     resf <- resf[, colnames(resf) != oracle]
 
@@ -99,6 +102,8 @@ get_diffs_bayes <- function(res,
                              rope = numeric())
 
       models <- colnames(resf)
+
+      # for each model, performs Bayes Sign Test
       for(model in models){
 
         dv <- resf[, model]

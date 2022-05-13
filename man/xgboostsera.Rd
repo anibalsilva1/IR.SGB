@@ -2,18 +2,19 @@
 % Please edit documentation in R/utils.R
 \name{xgboostsera}
 \alias{xgboostsera}
-\title{Custom adaptation of SERA to xgboost.}
+\title{Gradients Statistics of SERA for XGBoost.}
 \usage{
 xgboostsera(preds, dtrain)
 }
 \arguments{
-\item{preds}{A numeric vector of predictions.}
+\item{preds}{Numeric \code{vector} of predictions.}
 
-\item{dtrain}{A xgb.DMatrix object.}
+\item{dtrain}{\code{xgb.DMatrix} object.}
 }
 \value{
 Returns a list containing the gradient and the hessian of SERA.
 }
 \description{
-Custom adaptation of SERA to xgboost.
+Determines the gradient statistics of SERA to be used in
+XGBoost algorithm as a custom loss function.
 }

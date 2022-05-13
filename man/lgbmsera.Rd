@@ -2,18 +2,19 @@
 % Please edit documentation in R/utils.R
 \name{lgbmsera}
 \alias{lgbmsera}
-\title{Custom adaptation of SERA to Light GBM.}
+\title{Gradient Statistics of SERA for LGBM.}
 \usage{
 lgbmsera(preds, dtrain)
 }
 \arguments{
-\item{preds}{A numeric vector of predictions.}
+\item{preds}{Numeric \text{vector} of predictions.}
 
-\item{dtrain}{A lgb.Dataset object.}
+\item{dtrain}{A \code{lgb.Dataset} object.}
 }
 \value{
 Returns a list containing the gradient and the hessian of SERA.
 }
 \description{
-Custom adaptation of SERA to Light GBM.
+Determines the gradient statistics of SERA to be used in
+LGBM algorithm as a custom loss function.
 }

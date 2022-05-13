@@ -30,8 +30,8 @@ SERAGradientTreeBoost(
 A numeric vector with predictions and execution time (in seconds).
 }
 \description{
-Determines predictions of a given dataset using the Gradient Tree Boost for Regression using
-SERA as an optimisation loss function.
+Determines predictions of a given dataset using the Gradient Tree Boost
+for Regression using SERA as an optimisation loss function.
 }
 \examples{
 \dontrun{

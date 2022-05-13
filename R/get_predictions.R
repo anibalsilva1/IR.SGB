@@ -35,13 +35,8 @@ get_predictions <- function(datasets, bestmodels){
     preds_wf <- foreach(wf = 1:length(nWF),
                         .final = function(wf) setNames(wf, nWF)
     ) %dopar% {
-
-      if(nWF[wf] != "wf.ranger")
-        params <- bestmodels[bestmodels$dataset == nD[i] &
+      params <- bestmodels[bestmodels$dataset == nD[i] &
                                bestmodels$workflow == nWF[wf], ]$params[[1]]
-      else
-        params <- bestmodels[bestmodels$dataset == nD[i] &
-                               bestmodels$workflow == nWF[wf], ]$params[[1]]$learner.pars
 
       preds <- do.call(what = nWF[wf],
                        args = c(list(form, train, test), params))

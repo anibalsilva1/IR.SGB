@@ -2,14 +2,14 @@
 % Please edit documentation in R/utils.R
 \name{metrics}
 \alias{metrics}
-\title{Function to be used with performanceEstimation}
+\title{Metrics to be used with \code{performanceEstimation}.}
 \usage{
 metrics(trues, preds, phi.ctrl, ...)
 }
 \arguments{
-\item{trues}{A numeric vector with true values.}
+\item{trues}{Numeric \code{vector} with true values.}
 
-\item{preds}{A numeric vector with predictions.}
+\item{preds}{Numeric \code{vector} with predictions.}
 
 \item{phi.ctrl}{Control points.}
 
@@ -19,7 +19,7 @@ metrics(trues, preds, phi.ctrl, ...)
 A numeric vector with mse and sera values.
 }
 \description{
-Function to be used with performanceEstimation
+Metrics to be used with \code{performanceEstimation}.
 }
 \examples{
 

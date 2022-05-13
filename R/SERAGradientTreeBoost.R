@@ -1,7 +1,7 @@
 #' Gradient Tree Boosting (SERA)
 #'
-#' @description Determines predictions of a given dataset using the Gradient Tree Boost for Regression using
-#' SERA as an optimisation loss function.
+#' @description Determines predictions of a given dataset using the Gradient Tree Boost
+#' for Regression using SERA as an optimisation loss function.
 #'
 #' @param formula A \code{formula} object.
 #' @param train A \code{data.frame} or \code{tibble} object with the training set.
