@@ -68,6 +68,19 @@ get_test_scores <- function(predictions, metric = "sera", tr = 0.9, norm = F){
                     summarise(across(everything(),
                                      ~ sum((trues - .x)^2)/sum((trues - mean(trues))^2))))
     }
+    else if(metric == "nsera"){
+      res <- res %>%
+        bind_rows(predictions[[d]]$preds %>%
+                    summarise(across(everything(),
+                                     ~ sera(trues = trues,
+                                            preds = .x,
+                                            phi.trues = phi(trues,
+                                                            predictions[[d]]$p.ctrl),
+                                            norm = norm)/sera(trues=trues,
+                                                              preds=mean(trues),
+                                                              phi.trues=phi(trues,predictions[[d]]$p.ctrl)))))
+
+    }
   }
   res <- res %>%
     add_column(dataset = nDs, .before = models[1]) %>%
