@@ -2,11 +2,9 @@
 #'
 #' @param trues Target values from a test set of a given data set. Should be a vector and have the same size as the variable preds
 #' @param preds Predicted values given a certain test set of a given data set. Should be a vector and have the same size as the variable preds
-#' @param phi.trues Relevance of the values in the parameter trues. Use ??phi() for more information. Defaults to NULL
+#' @param phi.trues Relevance of the values in the parameter trues.
 #' @param ph The relevance function providing the data points where the pairs of values-relevance are known. Default is NULL
-#' @param pl Boolean to indicate if an illustration of the curve should be provided. Default is FALSE
-#' @param m.name Name of the model to be appended in the plot title
-#' @param step Relevance intervals between 0 (min) and 1 (max). Default 0.001
+#' @param step Relevance intervals between 0 (min) and 1 (max). Default 0.001.
 #' @param return.err Boolean to indicate if the errors at each subset of increasing relevance should be returned. Default is FALSE
 #' @param norm Normalize the SERA values for internal optimisation only (TRUE/FALSE)
 #'
@@ -15,8 +13,13 @@
 #' @export
 #'
 #' @examples
-sera <- function(trues, preds, phi.trues=NULL, ph=NULL, pl=FALSE,
-                      m.name="Model", step=0.001, return.err=FALSE, norm=FALSE) {
+sera_err <- function(trues,
+                     preds,
+                     phi.trues = NULL,
+                     ph = NULL,
+                     step = 0.001,
+                     norm = FALSE,
+                     return.err = FALSE) {
 
   if(!is.data.frame(preds)) preds <- as.data.frame(preds)
 
@@ -34,7 +37,7 @@ sera <- function(trues, preds, phi.trues=NULL, ph=NULL, pl=FALSE,
 
   if(any(is.na(errors))) errors[is.na(errors)] <- 0
 
-  if(norm) errors <- errors/sum((tbl$trues - mean(tbl$trues))^2)
+  if(norm) errors <- errors/errors[1]
 
   areas <- sapply(1:length(ms), FUN=function(m) sapply(2:length(th), FUN=function(x) step * (errors[x-1,m] + errors[x,m])/2 ))
   colnames(areas) <- ms
@@ -42,43 +45,76 @@ sera <- function(trues, preds, phi.trues=NULL, ph=NULL, pl=FALSE,
 
   res <- apply(areas,2,FUN=function(x) sum(x))
 
-  if(pl) {
-
-    max_y <- max(errors)
-
-    if(ncol(errors)>1) {
-
-      df <- data.frame(th=th,errors)
-
-      df_melt <- reshape::melt(df,id.vars="th")
-      colnames(df_melt)[2] <- "Model"
-
-      print(ggplot2::ggplot(df_melt,aes(x=th,y=value,group=Model,color=Model)) +
-              ggplot2::geom_smooth(method="scam",formula=y ~ s(x, k = 30, bs = "mpd"),span=0.1,se=FALSE,fullrange=TRUE) +
-              ggplot2::xlab(expression("Relevance"~phi(y))) + ylab("SER") +
-              ggplot2::ggtitle("SERA") + ylim(c(0,max_y)) + ggplot2::geom_hline(yintercept=0,colour="black"))
+  df <- data.frame(th=th, errors)
+  colnames(df)[1] <- "phi"
+  colnames(df)[2:ncol(df)] <- ms
 
 
-    } else {
+  if(isTRUE(return.err.df)) {
 
-      df <- data.frame(th=th,errors=errors)
-
-      print(ggplot2::ggplot(df,aes(x=th,y=errors)) +
-              ggplot2::geom_smooth(method="scam",formula=y ~ s(x, k = 30, bs = "mpd"),span=0.1,se=FALSE,colour="blue") +
-              ggplot2::xlab(expression("Relevance"~phi(y))) + ylab("SER") +
-              ggplot2::ggtitle(paste0(m.name," SERA = ",round(res,3))) + ylim(c(0,max_y))+ ggplot2::geom_hline(yintercept=0,colour="black") + ggplot2::geom_hline(yintercept=df[2,]$preds,linetype="dashed",colour="darkgrey"))
-
-    }
-
-  }
-
-  if(return.err) {
-
-    list(sera=res, errors=as.vector(errors), thrs=th)
+    return(list(sera=res,
+                errors=as.vector(errors),
+                thrs=th,
+                errs.df = df)
+    )
 
   } else {
 
-    res
+    return(res)
   }
 
 }
+
+
+
+
+#' SERA first derivative
+#' @description Calculates SERA first derivative using the trapezoidal rule with Riemann's sum.
+#'
+#' @param trues Target values from a test set of a given data set. Should be a vector and have the same size as the variable preds
+#' @param preds Predicted values given a certain test set of a given data set. Should be a vector and have the same size
+#' @param phi Relevance of the values in the parameter trues.
+#' @param step Relevance intervals between 0 (min) and 1 (max). Default 0.001.
+#'
+#' @return
+#' @export
+#'
+#' @examples
+sera_deriv <- function(trues, preds, phi, step = 0.001){
+
+  th <- c(seq(0, 1, step))
+
+  errors <- lapply(1:length(trues), FUN = function(i) sapply(th, FUN = function(x) if(phi[i] >= x) preds[i] - trues[i] else 0))
+  #print(errors)
+  areas <- sapply(errors, FUN = function(err) step * sapply(2:length(th), FUN=function(x) (err[x-1] + err[x])/2))
+
+  y_deriv <- 2*colSums(areas)
+
+  return(y_deriv)
+}
+
+#' SERA second derivative
+#'
+#' @description Calculates SERA second derivative using the trapezoidal rule with Riemann's sum.
+#' @param trues Target values from a test set of a given data set. Should be a vector and have the same size as the variable preds
+#' @param preds Predicted values given a certain test set of a given data set. Should be a vector and have the same size
+#' @param phi Relevance of the values in the parameter trues.
+#' @param step Relevance intervals between 0 (min) and 1 (max). Default 0.001.
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#'
+sera_second_deriv <- function(trues, preds, phi, step = 0.001){
+
+  th <- c(seq(0, 1, step))
+
+  errors <- lapply(1:length(trues), FUN = function(i) sapply(1:length(th), FUN = function(x) if(phi[i] >= th[x]) 1 else 0))
+  areas <- sapply(errors, FUN = function(i) step * sapply(2:length(th), FUN=function(x) (i[x-1] + i[x])/2))
+
+  y_deriv <- 2*colSums(areas)
+
+  return(y_deriv)
+}
+

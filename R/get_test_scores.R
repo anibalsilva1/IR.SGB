@@ -72,16 +72,17 @@ get_test_scores <- function(predictions, metric = "sera", tr = 0.9, norm = F){
       res <- res %>%
         bind_rows(predictions[[d]]$preds %>%
                     summarise(across(everything(),
-                                     ~ sera(trues = trues,
+                                     ~ IRon::sera(trues = trues,
                                             preds = .x,
                                             phi.trues = phi(trues,
                                                             predictions[[d]]$p.ctrl),
-                                            norm = norm)/sera(trues=trues,
-                                                              preds=mean(trues),
-                                                              phi.trues=phi(trues,predictions[[d]]$p.ctrl)))))
+                                            norm = norm)/IRon::sera(trues=trues,
+                                                                    preds=mean(trues),
+                                                                    phi.trues=phi(trues,predictions[[d]]$p.ctrl)))))
 
     }
   }
+  print(res)
   res <- res %>%
     add_column(dataset = nDs, .before = models[1]) %>%
     dplyr::select(-trues)

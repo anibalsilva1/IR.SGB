@@ -7,7 +7,7 @@
 lgbmsera(preds, dtrain)
 }
 \arguments{
-\item{preds}{Numeric \text{vector} of predictions.}
+\item{preds}{Numeric \code{vector} of predictions.}
 
 \item{dtrain}{A \code{lgb.Dataset} object.}
 }

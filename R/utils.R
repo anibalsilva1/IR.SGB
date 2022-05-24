@@ -39,7 +39,7 @@ xgboostsera <- function(preds, dtrain){
 #' @description Determines the gradient statistics of SERA to be used in
 #' LGBM algorithm as a custom loss function.
 #'
-#' @param preds Numeric \text{vector} of predictions.
+#' @param preds Numeric \code{vector} of predictions.
 #' @param dtrain A \code{lgb.Dataset} object.
 #'
 #' @return  Returns a list containing the gradient and the hessian of SERA.
@@ -49,7 +49,6 @@ xgboostsera <- function(preds, dtrain){
 lgbmsera <- function(preds, dtrain){
 
   labels <- lightgbm::get_field(dtrain, "label")
-
 
   s <- 0.001
   step <- seq(0,1,s)
