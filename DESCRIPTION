@@ -25,6 +25,8 @@ Imports:
     ranger,
     robustbase,
     stats,
+    scam,
+    latex2exp,
     tibble,
     tidyr,
     treeClust,

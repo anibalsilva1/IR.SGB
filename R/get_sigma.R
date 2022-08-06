@@ -1,25 +1,42 @@
 #' Get sigma.
 #'
-#' @description Calculates the number of instances have a relevance until a given
-#' threshold.
+#' @description Calculates the number of steps up to a given relevance phi.
 #'
-#' @param phi A numeric vector with the relevance values of the target variable.
+#' @param phi A number with the relevance of the target variable.
 #' @param steps A numeric vector with steps.
 #'
-#' @return A numeric vector with the number of occurrences of a given observation.
+#' @return A number with the number of occurrences of a given observation.
 #' @export
 #'
 #' @examples
-get_sigma <- function(phi, steps){
+get_sigma_one <- function(phi, steps){
 
-  v <- vector(mode = "numeric", length=length(phi))
+  t = length(steps) - 1
+  v <- 1/2 ## phi=0
 
-  for(i in 1:length(phi)) {
-    for(j in 1:length(steps)){
-      if(phi[i] >= steps[j]){
-        v[i] <- v[i]+1
-      }
+  for(i in 2:t){
+    if(phi >= steps[i]){
+      v <- v + 1
     }
   }
+  if(phi == 1){
+    v <- v + 1/2
+  }
   return(v)
+}
+
+#' Calculates the number of steps up to a given relevance phi, for all phis.
+#'
+#' @param phis A vector with the relevance of the target variable.
+#' @param steps A numeric vector with steps.
+#'
+#' @return
+#' @export
+#'
+#' @examples
+get_sigma <- function(phis, steps){
+
+  t = length(steps) - 1
+  N <- sapply(phis, FUN = function(i) get_sigma_one(phi=i, steps=steps))
+  return(N/t)
 }

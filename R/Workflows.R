@@ -27,11 +27,11 @@
 #' nrounds = 100
 #'
 #'
-#' res <- wf.xgboost(formula, train, test, nrounds=nrounds)
+#' res <- wf.XGBoost(formula, train, test, nrounds=nrounds)
 #' res
 #' }
 
-wf.xgboost <- function(formula, train, test, ...){
+wf.XGBoost <- function(formula, train, test, ...){
 
   t <- formula[[2]]
 
@@ -91,6 +91,7 @@ wf.xgboost <- function(formula, train, test, ...){
 #' library(dplyr)
 #' library(IRon)
 #' library(xgboost)
+#' library(robustbase)
 #'
 #' n <- nrow(NO2Emissions)
 #' s <- sample(1:n, size = n*0.8)
@@ -102,11 +103,11 @@ wf.xgboost <- function(formula, train, test, ...){
 #' nrounds = 100
 #'
 #'
-#' res <- wf.xSERAgboost(formula, train, test, nrounds=nrounds)
+#' res <- wf.XGBoost_SERA(formula, train, test, nrounds=nrounds)
 #' res
 #' }
 
-wf.xSERAgboost <- function(formula, train, test,...){
+wf.XGBoost_SERA <- function(formula, train, test,...){
 
   t <- formula[[2]]
 
@@ -424,11 +425,11 @@ wf.LGBM <- function(formula, train, test, ...){
 #'
 #' nrounds <- 100
 #'
-#' res <- wf.LGBMSERA(formula, train, test, nrounds=nrounds)
+#' res <- wf.LGBM_SERA(formula, train, test, nrounds=nrounds)
 #' res
 #' }
 
-wf.LGBMSERA <- function(formula, train, test, ...){
+wf.LGBM_SERA <- function(formula, train, test, ...){
 
   t <- formula[[2]]
 

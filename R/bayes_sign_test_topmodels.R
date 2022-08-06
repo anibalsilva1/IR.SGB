@@ -4,6 +4,7 @@
 #' @description Performs Bayes Sign Test for the best performers for a given dataset.
 #' @param betswfs A \code{list} with the best workflows for a given dataset.
 #' @param oracle The model which you want to compare the others.
+#' @param res Merged results from grid search.
 #' @param metric Metric to evaluate the test. It must be one used in performanceEstimation.
 #' @param rope Region of Practical Equivalence. Defines a region where the oracle and the other model is practical equivalent. Defaults to 0.01.
 #' @param return.errs If true, in addition to the probabilities returned form the Bayes Sign test it also returns the mean differences between the model and the oracle.
@@ -14,6 +15,7 @@
 #' @examples
 bayes_sign_test_topmodels <- function(betswfs,
                                       oracle,
+                                      res,
                                       metric,
                                       rope=0.01,
                                       return.errs=FALSE){
@@ -41,7 +43,6 @@ bayes_sign_test_topmodels <- function(betswfs,
       mutate(across(everything(), ~ (oracle - .x)/.x)) %>%
       dplyr::select(-matches(oracle), -oracle) %>%
       summarise(across(everything(), ~ mean(.x))) %>%
-      #mutate(across(everything(), ~ .x/sum(.x))) %>% # just to test
       rename_with(.cols=everything(), .fn= ~ str_remove(.x ,"\\.v\\d+"))
 
     res_df[[ds_name]] <- res_wfs_df

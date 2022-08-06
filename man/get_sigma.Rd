@@ -2,19 +2,18 @@
 % Please edit documentation in R/get_sigma.R
 \name{get_sigma}
 \alias{get_sigma}
-\title{Get sigma.}
+\title{Calculates the number of steps up to a given relevance phi, for all phis.}
 \usage{
-get_sigma(phi, steps)
+get_sigma(phis, steps)
 }
 \arguments{
-\item{phi}{A numeric vector with the relevance values of the target variable.}
+\item{phis}{A vector with the relevance of the target variable.}
 
 \item{steps}{A numeric vector with steps.}
 }
 \value{
-A numeric vector with the number of occurrences of a given observation.
+
 }
 \description{
-Calculates the number of instances have a relevance until a given
-threshold.
+Calculates the number of steps up to a given relevance phi, for all phis.
 }

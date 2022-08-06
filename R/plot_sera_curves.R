@@ -27,28 +27,26 @@ plot_sera_curves <- function(preds, ds_name, return.err=FALSE){
   best_model <- names(scores)[which.min(scores)]
 
   if(best_model == "XGBoost_SERA")
-    m <- "$XGBoost^{\\textit{(S)}}$"
+    m <- "$XGBoost^{\\textit{S}}$"
   else if(best_model == "LGBM_SERA")
-    m <- "$LGBM^{\\textit{(S)}}$"
+    m <- "$LGBM^{\\textit{S}}$"
   else if(best_model == "XGBoost")
-    m <- "$XGBoost^{\\textit{(M)}}$"
+    m <- "$XGBoost^{\\textit{M}}$"
   else
-    m <- "$LGBM^{\\textit{(M)}}$"
+    m <- "$LGBM^{\\textit{M}}$"
 
   plot <- errs %>%
     tibble::as_tibble() %>%
-    dplyr::rename(`XGBoost (SERA)` = XGBoost_SERA,
-           `LGBM (SERA)` = LGBM_SERA) %>%
     tidyr::pivot_longer(cols=matches(c("XG", "LGB")), names_to="models", values_to="SER") %>%
-    dplyr::mutate(models=factor(models, levels=c("LGBM","XGBoost", "LGBM (SERA)", "XGBoost (SERA)"))) %>%
+    dplyr::mutate(models=factor(models, levels=c("XGBoost","XGBoost_SERA", "LGBM", "LGBM_SERA"))) %>%
     ggplot2::ggplot(mapping=aes(x=phi, y=SER/max(SER), color=models, group=models)) +
     ggplot2::geom_smooth(method="scam",formula=y ~ s(x, k = 30, bs = "mpd"),span=0.1,se=FALSE,fullrange=T) +
     ggplot2::xlab(expression("Relevance"~phi(y))) + ylab("SER") +
     ggplot2::geom_hline(yintercept=0,colour="black") +
     ggplot2::ggtitle(TeX(paste0("Winner: ", m, "; ",ds_name))) +
     ggplot2::labs(colour = "Models:") +
-    ggplot2::scale_color_brewer(labels=c(TeX("$LGBM^{\\textit{(M)}}$"), TeX("$XGBoost^{\\textit{(M)}}$"),
-                                         TeX("$LGBM^{\\textit{(S)}}$"), TeX("$XGBoost^{\\textit{(S)}}$")),
+    ggplot2::scale_color_brewer(labels=c(TeX("$XGBoost^{\\textit{M}}$"), TeX("$XGBoost^{\\textit{S}}$"),
+                                         TeX("$LGBM^{\\textit{M}}$"), TeX("$LGBM^{\\textit{S}}$")),
                                 palette="Set1") +
     ggplot2::theme_classic() +
     ggplot2::theme(

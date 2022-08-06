@@ -7,6 +7,7 @@
 bayes_sign_test_topmodels(
   betswfs,
   oracle,
+  res,
   metric,
   rope = 0.01,
   return.errs = FALSE
@@ -16,6 +17,8 @@ bayes_sign_test_topmodels(
 \item{betswfs}{A \code{list} with the best workflows for a given dataset.}
 
 \item{oracle}{The model which you want to compare the others.}
+
+\item{res}{Merged results from grid search.}
 
 \item{metric}{Metric to evaluate the test. It must be one used in performanceEstimation.}
 

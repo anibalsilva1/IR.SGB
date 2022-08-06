@@ -50,7 +50,7 @@ sera_err <- function(trues,
   colnames(df)[2:ncol(df)] <- ms
 
 
-  if(isTRUE(return.err.df)) {
+  if(isTRUE(return.err)) {
 
     return(list(sera=res,
                 errors=as.vector(errors),
@@ -85,7 +85,6 @@ sera_deriv <- function(trues, preds, phi, step = 0.001){
   th <- c(seq(0, 1, step))
 
   errors <- lapply(1:length(trues), FUN = function(i) sapply(th, FUN = function(x) if(phi[i] >= x) preds[i] - trues[i] else 0))
-  #print(errors)
   areas <- sapply(errors, FUN = function(err) step * sapply(2:length(th), FUN=function(x) (err[x-1] + err[x])/2))
 
   y_deriv <- 2*colSums(areas)

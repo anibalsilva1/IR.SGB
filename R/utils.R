@@ -12,23 +12,18 @@
 #' @examples
 xgboostsera <- function(preds, dtrain){
 
-
   s <- 0.001
   labels <- xgboost::getinfo(dtrain, "label")
 
   step <- seq(0,1,s)
-  N <- length(step)
 
   p.extrm <- get_extreme_type(labels)
   phi.ctrl <- phi.control(labels, extr.type = p.extrm)
 
   phi.trues <- phi(labels, phi.ctrl)
+  sigmas <- get_sigma(phis=phi.trues, steps=step)
 
-  sigmas <- get_sigma(phi.trues, step)
-  sigmas <- sigmas/N
-
-
-  grad <- 2*sigmas*(preds - labels)
+  grad <- 2*sigmas*(preds-labels)
   hess <- 2*sigmas
 
   return(list(grad = grad, hess = hess))
@@ -52,16 +47,14 @@ lgbmsera <- function(preds, dtrain){
 
   s <- 0.001
   step <- seq(0,1,s)
-  N <- length(step)
 
   p.extrm <- get_extreme_type(labels)
   phi.ctrl <- phi.control(labels, extr.type = p.extrm)
 
   phi.trues <- phi(labels, phi.ctrl)
-  sigmas <- get_sigma(phi.trues, step)
-  sigmas <- sigmas/N
+  sigmas <- get_sigma(phis=phi.trues, steps=step)
 
-  grad <- 2*sigmas*(preds - labels)
+  grad <- 2*sigmas*(preds-labels)
   hess <- 2*sigmas
 
   return(list(grad = grad, hess = hess))
